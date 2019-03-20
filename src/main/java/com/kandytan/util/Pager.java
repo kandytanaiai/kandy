@@ -3,7 +3,7 @@ package com.kandytan.util;
 import java.io.Serializable;
 import java.util.List;
 
-
+//ffff
 public class Pager<T> implements Serializable {
 
     /** 首页 */
