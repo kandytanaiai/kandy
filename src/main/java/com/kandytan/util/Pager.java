@@ -70,6 +70,11 @@ public class Pager<T> implements Serializable {
         this.dataList = dataList;
     }
 
+    public Pager(List<T> dataList, int recCount, int currPage, int pageSize) {
+        this(dataList, recCount, currPage);
+        this.pageSize = pageSize;
+    }
+
     public void calc() {
         if(0 == this.recCount) {
             this.currPage = 0;

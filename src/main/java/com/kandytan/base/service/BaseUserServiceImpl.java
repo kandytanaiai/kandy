@@ -3,6 +3,7 @@ package com.kandytan.base.service;
 import com.kandytan.base.dao.BaseUserDao;
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
+import com.kandytan.util.Pager;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class BaseUserServiceImpl implements BaseUserService {
     @Override
     public List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO) {
         return baseUserDao.selectList(baseUserQueryVO);
+    }
+
+    @Override
+    public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize) {
+        return baseUserDao.selectPager(baseUserQueryVO, currPage, pageSize);
     }
 
     @Override
@@ -66,16 +72,16 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public boolean delete(List<BaseUserVO> list) {
-        return baseUserDao.delete(list);
+    public boolean delete(List<String> userIdList) {
+        return baseUserDao.delete(userIdList);
     }
 
     @Override
-    public boolean delete(BaseUserVO baseUserVO) {
-        if(null==baseUserVO || StringUtils.isBlank(baseUserVO.getUserId()))
+    public boolean delete(String userId) {
+        if(StringUtils.isBlank(userId))
             return false;
-        List<BaseUserVO> list = new ArrayList<BaseUserVO>();
-        list.add(baseUserVO);
-        return this.delete(list);
+        List<String> userIdList = new ArrayList<String>();
+        userIdList.add(userId);
+        return this.delete(userIdList);
     }
 }

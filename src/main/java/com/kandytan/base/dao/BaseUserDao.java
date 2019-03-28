@@ -21,6 +21,6 @@ public interface BaseUserDao {
 
     boolean update(List<BaseUserVO> list);
 
-    boolean delete(List<BaseUserVO> list);
+    boolean delete(List<String> userIdList);
 
 }

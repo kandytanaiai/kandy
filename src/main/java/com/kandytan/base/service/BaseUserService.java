@@ -2,6 +2,7 @@ package com.kandytan.base.service;
 
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
+import com.kandytan.util.Pager;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface BaseUserService {
 
     List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO);
 
+    Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize);
+
     BaseUserVO selectOne(BaseUserQueryVO baseUserQueryVO);
 
     boolean insert(List<BaseUserVO> list);
@@ -25,8 +28,8 @@ public interface BaseUserService {
 
     boolean update(BaseUserVO baseUserVO);
 
-    boolean delete(List<BaseUserVO> list);
+    boolean delete(List<String> userIds);
 
-    boolean delete(BaseUserVO baseUserVO);
+    boolean delete(String userId);
 
 }

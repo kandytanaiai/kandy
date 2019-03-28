@@ -34,7 +34,7 @@ public class BaseUserDaoImpl implements BaseUserDao {
     public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize) {
         Page page = PageHelper.startPage(currPage, pageSize, true);
         List<BaseUserVO> baseUserVOList = sqlSessionTemplate.selectList(BaseUserVO.class.getName() + ".selectList", baseUserQueryVO);
-        Pager<BaseUserVO> pager = new Pager<BaseUserVO>(baseUserVOList, new Long(page.getTotal()).intValue(), currPage);
+        Pager<BaseUserVO> pager = new Pager<BaseUserVO>(baseUserVOList, new Long(page.getTotal()).intValue(), currPage, pageSize);
 
         return pager;
     }
@@ -52,8 +52,8 @@ public class BaseUserDaoImpl implements BaseUserDao {
     }
 
     @Override
-    public boolean delete(List<BaseUserVO> list) {
-        int result = sqlSessionTemplate.delete(BaseUserVO.class.getName() + ".delete", list);
+    public boolean delete(List<String> userIdList) {
+        int result = sqlSessionTemplate.delete(BaseUserVO.class.getName() + ".delete", userIdList);
         return result > 0 ? true : false;
     }
 }
