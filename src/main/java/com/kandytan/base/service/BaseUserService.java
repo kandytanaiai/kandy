@@ -2,6 +2,8 @@ package com.kandytan.base.service;
 
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
+import com.kandytan.util.BusException;
+import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
 
 import java.util.List;
@@ -16,20 +18,16 @@ public interface BaseUserService {
 
     List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO);
 
-    Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize);
+    Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO);
 
     BaseUserVO selectOne(BaseUserQueryVO baseUserQueryVO);
 
-    boolean insert(List<BaseUserVO> list);
+    boolean noExist(BaseUserQueryVO baseUserQueryVO);
 
-    boolean insert(BaseUserVO baseUserVO);
+    OperResult<BaseUserVO> insert(BaseUserVO baseUserVO);
 
-    boolean update(List<BaseUserVO> list);
+    OperResult<BaseUserVO> update(BaseUserVO baseUserVO);
 
-    boolean update(BaseUserVO baseUserVO);
-
-    boolean delete(List<String> userIds);
-
-    boolean delete(String userId);
+    OperResult<List<String>> delete(List<String> userIds);
 
 }

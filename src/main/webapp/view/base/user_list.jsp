@@ -5,47 +5,162 @@
     <title>用户列表</title>
 </head>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/util/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
-        // alert("加载成功。。");
-    });
-    function submitOut(currPage) {
-        // alert(currPage);
-        // return;
-        if(currPage!=null&&currPage!=undefined&&currPage!="")
-            $("#ipt_currPage").val(currPage);
-        $("#ipt_pageSize").val($("#sel_pageSize").val());
+        cx();
 
-        $("#frm_query").submit();
+        $('#ipt_userName').keydown(function(e){
+            if(e.keyCode==13){
+                $("#but_cx").click();
+            }
+        });
+    });
+
+    function deleteId(userId) {
+        var ids = new Array();
+        ids.push(userId);
+        deleteByIds(ids);
     }
 
     function deleteIds() {
         var ids = new Array();
-        $("#ids").each(function(){
+        $("input[name='ids']:checked").each(function(){
             ids.push($(this).val());
-        })
-        alert(ids);
+        });
+
+        if(ids.length < 1) {
+            alert("请选中记录");
+            return;
+        }
+        deleteByIds(ids);
     }
 
-    function append() {
-
+    function deleteByIds(userIds) {
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/base/user/delete.do",
+            data:JSON.stringify(userIds),
+            contentType: 'application/json;charset=utf-8',
+            dataType:"json",
+            success:function(data){
+                submitOut($("#pager_currPage").val());
+                alert("删除成功");
+            },
+            error:function(data){
+                alert("删除失败");
+            }
+        });
     }
     
-    function edit() {
-        
+    function edit(userId) {
+        var title = "用户新增";
+        var url = "${pageContext.request.contextPath}/base/user/toUserEdit.do";
+        if(userId!=null&&userId!=undefined&&userId!="") {
+            title = "用户编辑";
+            url = url + "?userId=" + userId;
+        }
+        $("#ifr_userEdit").attr("src", url);
+
+        $("#div_edit").dialog({
+            height: 500,
+            width: 800,
+            title: title
+        });
     }
+
+    function cx() {
+        $("#hidden_userName").val($("#ipt_userName").val());
+        query(1, 5);
+    }
+
+    function query(currPage, pageSize) {
+        var userName = $("#hidden_userName").val();
+        // alert(userName);
+        reloadData(userName, currPage, pageSize);
+    }
+
+    function reloadData(userName, currPage, pageSize) {
+        $("#table_data tr:not(:first)").empty("");
+        $("#div_pager").html("");
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/base/user/selectPager.do",
+            data:JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
+            contentType:'application/json;charset=utf-8',
+            dataType: "json",
+            success:function(pager){
+                fillData(pager);
+                fillPager(pager);
+            },
+            error:function(data){
+                alert("加载失败");
+            }
+        });
+
+    }
+
+    function timestampToTime(timestamp) {
+        if("" == timestamp)
+            return "";
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
+
+        h = date.getHours() + ':';
+        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':';
+        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+        return Y+M+D+h+m+s;
+    }
+
+    function timestampToDate(timestamp) {
+        if("" == timestamp)
+            return "";
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
+
+        h = date.getHours() + ':';
+        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':';
+        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+
+        return Y+M+D;
+    }
+    
+    function fillData(pager) {
+        $.each(pager.dataList, function (n, baseUserVO) {
+            $("#table_data tbody:last").append("<tr>" +
+                "<td><input type=\"checkbox\" id=\"ids\" name=\"ids\" value=\""+baseUserVO.userId+"\"></td>" +
+                "<td>" + baseUserVO.userName + "</td>" +
+                "<td>" + baseUserVO.userTypeName + "</td>" +
+                "<td>" + baseUserVO.sexName + "</td>" +
+                "<td>" + timestampToDate(baseUserVO.birthday) + "</td>" +
+                "<td>" + baseUserVO.tel + "</td>" +
+                "<td>" + baseUserVO.email + "</td>" +
+                "<td>" + baseUserVO.remark + "</td>" +
+                "<td>" + timestampToTime(baseUserVO.createTime) + "</td>" +
+                "<td>" + baseUserVO.isEnableName + "</td>" +
+                "<td>" + baseUserVO.oper + "</td>" +
+                "</tr>");
+        });
+
+    }
+
 
 </script>
 <body>
-<form id="frm_query" name="frm_query" action="${pageContext.request.contextPath}/base/user/selectPager.do" method="post">
-    <input type="hidden" id="ipt_currPage" name="ipt_currPage">
-    <input type="hidden" id="ipt_pageSize" name="ipt_pageSize">
-    <input type="text" id="ipt_userName" name="ipt_userName" value="${ipt_userName}">
-    <input type="button" onclick="submitOut();" value="查询">
-    <input type="button" onclick="append();" value="新增">
+<div id="div_edit" style="display:none;">
+    <iframe id ="ifr_userEdit" style="border: 0px;" width='100%' height='100%'></iframe>
+</div>
+    <input type="hidden" id="hidden_userName" name="hidden_userName">
+    <input type="text" id="ipt_userName" name="ipt_userName">
+    <input id="but_cx" name="but_cx" type="button" onclick="cx();" value="查询">
+    <input type="button" onclick="edit();" value="新增">
     <input type="button" onclick="deleteIds();" value="删除">
-</form>
-<table>
+<table id="table_data">
     <tr>
         <th>选择</th>
         <th>用户名称</th>
@@ -57,44 +172,10 @@
         <th>备注</th>
         <th>创建时间</th>
         <th>是否可用</th>
+        <th>操作</th>
     </tr>
-    <c:forEach var="baseUserVO" items="${pager.dataList}">
-<tr>
-    <td>
-        <input type="checkbox" id="ids" name="ids" value="${baseUserVO.userId}">
-    </td>
-    <td>
-            ${baseUserVO.userName}
-    </td>
-    <td>
-            ${baseUserVO.userTypeName}
-    </td>
-    <td>
-            ${baseUserVO.sexName}
-    </td>
-    <td>
-            ${baseUserVO.birthday}
-    </td>
-    <td>
-            ${baseUserVO.tel}
-    </td>
-    <td>
-            ${baseUserVO.email}
-    </td>
-    <td>
-            ${baseUserVO.remark}
-    </td>
-    <td>
-            ${baseUserVO.createTime}
-    </td>
-    <td>
-            ${baseUserVO.isEnableName}
-    </td>
-</tr>
-    </c:forEach>
 </table>
     <c:import url="../util/pager.jsp" />
-
 
 </body>
 </html>

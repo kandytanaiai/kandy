@@ -33,7 +33,10 @@
             AND bc_ie.is_enable = 1
             LEFT JOIN base_user buc ON buc.user_id = bu.create_user_id
             WHERE 1 = 1
+        <if test="userId != null"> AND bu.user_id = #{userId}</if>
         <if test="userName != null"> AND bu.user_name LIKE '%${userName}%'</if>
+        <if test="tel != null"> AND bu.tel = #{tel}</if>
+        <if test="email != null"> AND bu.email = #{email}</if>
     </select>
 
     <insert id="insert" parameterType="java.util.List">

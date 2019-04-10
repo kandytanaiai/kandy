@@ -3,9 +3,12 @@ package com.kandytan.base.service;
 import com.kandytan.base.dao.BaseUserDao;
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
+import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
+import com.kandytan.util.UUID;
 import org.apache.commons.lang3.StringUtils;
-import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,17 +24,31 @@ import java.util.List;
 @Service
 public class BaseUserServiceImpl implements BaseUserService {
 
+    private static final Logger logger = LoggerFactory.getLogger( BaseUserServiceImpl.class);
+
     @Resource
     private BaseUserDao baseUserDao;
 
     @Override
     public List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO) {
-        return baseUserDao.selectList(baseUserQueryVO);
+        List<BaseUserVO> baseUserVOList = null;
+        try {
+            baseUserVOList = baseUserDao.selectList(baseUserQueryVO);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return baseUserVOList;
     }
 
     @Override
-    public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize) {
-        return baseUserDao.selectPager(baseUserQueryVO, currPage, pageSize);
+    public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO) {
+        Pager<BaseUserVO> pager = null;
+        try {
+            pager = baseUserDao.selectPager(baseUserQueryVO, baseUserQueryVO.getPager().getCurrPage(), baseUserQueryVO.getPager().getPageSize());
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return pager;
     }
 
     @Override
@@ -44,44 +61,65 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public boolean insert(List<BaseUserVO> list) {
-        return baseUserDao.insert(list);
+    public boolean noExist(BaseUserQueryVO baseUserQueryVO) {
+        BaseUserQueryVO baseUserQueryVOQ = new BaseUserQueryVO();
+        if(StringUtils.isNotBlank(baseUserQueryVO.getTel())) {
+            baseUserQueryVOQ.setTel(baseUserQueryVO.getTel());
+        } else if(StringUtils.isNotBlank(baseUserQueryVO.getEmail())) {
+            baseUserQueryVOQ.setEmail(baseUserQueryVO.getEmail());
+        } else {
+            return true;
+        }
+        BaseUserVO baseUserVO = this.selectOne(baseUserQueryVOQ);
+        return null == baseUserVO;
     }
 
     @Override
-    public boolean insert(BaseUserVO baseUserVO) {
-        if(null==baseUserVO || !baseUserVO.validate())
-            return false;
+    public OperResult<BaseUserVO> insert(BaseUserVO baseUserVO) {
+        OperResult<BaseUserVO> operResult = new OperResult<BaseUserVO>(baseUserVO);
+
+        if(StringUtils.isBlank(baseUserVO.getUserId()))
+            baseUserVO.setUserId(UUID.getUUID());
         List<BaseUserVO> list = new ArrayList<BaseUserVO>();
         list.add(baseUserVO);
-        return this.insert(list);
+        try {
+            baseUserDao.insert(list);
+            operResult.setSuccess("新增成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            operResult.setUnknownError();
+        }
+        return operResult;
     }
 
     @Override
-    public boolean update(List<BaseUserVO> list) {
-        return baseUserDao.update(list);
-    }
+    public OperResult<BaseUserVO> update(BaseUserVO baseUserVO) {
+        OperResult<BaseUserVO> operResult = new OperResult<BaseUserVO>(baseUserVO);
 
-    @Override
-    public boolean update(BaseUserVO baseUserVO) {
-        if(null==baseUserVO || !baseUserVO.validate())
-            return false;
         List<BaseUserVO> list = new ArrayList<BaseUserVO>();
         list.add(baseUserVO);
-        return this.update(list);
+        try {
+            baseUserDao.update(list);
+            operResult.setSuccess("更新成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            operResult.setUnknownError();
+        }
+        return operResult;
     }
 
     @Override
-    public boolean delete(List<String> userIdList) {
-        return baseUserDao.delete(userIdList);
+    public OperResult<List<String>> delete(List<String> userIdList) {
+        OperResult<List<String>> operResult = new OperResult<List<String>>(userIdList);
+        try {
+            baseUserDao.delete(userIdList);
+            operResult.setSuccess("删除成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            operResult.setUnknownError();
+        }
+
+        return operResult;
     }
 
-    @Override
-    public boolean delete(String userId) {
-        if(StringUtils.isBlank(userId))
-            return false;
-        List<String> userIdList = new ArrayList<String>();
-        userIdList.add(userId);
-        return this.delete(userIdList);
-    }
 }

@@ -4,12 +4,15 @@ import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.base.service.BaseUserService;
 import com.kandytan.test.service.TestService;
+import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -21,51 +24,73 @@ import java.util.List;
 @RequestMapping("/base/user")
 public class BaseUserControl {
 
-    private static final Logger logger = LoggerFactory.getLogger( BaseUserControl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseUserControl.class);
     @Resource
     private BaseUserService baseUserService;
 
+    @RequestMapping("/toUserList")
+    public String toUserList(HttpServletRequest request, HttpServletResponse response) {
+        return "/view/base/user_list.jsp";
+    }
+
+    @RequestMapping("/toUserEdit")
+    public String toUserEdit(HttpServletRequest request, HttpServletResponse response) {
+        String userId = request.getParameter("userId");
+        if (StringUtils.isNotBlank(userId))
+            request.setAttribute("userId", userId);
+        return "/view/base/user_edit.jsp";
+    }
+
     @RequestMapping("/selectPager")
-    public String selectPager(HttpServletRequest request, HttpServletResponse response) {
-        int currPage = 1;
-        int pageSize = 5;
-        if(StringUtils.isNotBlank(request.getParameter("ipt_currPage")))
-            currPage = Integer.parseInt(request.getParameter("ipt_currPage"));
-        if(StringUtils.isNotBlank(request.getParameter("ipt_pageSize")))
-            pageSize = Integer.parseInt(request.getParameter("ipt_pageSize"));
-        BaseUserQueryVO baseUserQueryVO = new BaseUserQueryVO();
-        if(StringUtils.isNotBlank(request.getParameter("ipt_userName")))
-            baseUserQueryVO.setUserName(request.getParameter("ipt_userName"));
-        Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO, currPage, pageSize);
-        List<BaseUserVO> baseUserVOList = pager.getDataList();
-        if(baseUserVOList!=baseUserVOList && baseUserVOList.size()>0) {
-            for(BaseUserVO baseUserVO : baseUserVOList) {
-                baseUserVO.setUserName("<a href=\"javascript:edit("+baseUserVO.getUserId()+");\">" + baseUserVO.getUserName() + "</a>");
+    public @ResponseBody
+    Pager<BaseUserVO> selectPager(@RequestBody BaseUserQueryVO baseUserQueryVO) {
+        Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO);
+
+        if (null != pager && null != pager.getDataList() && pager.getDataList().size() > 0) {
+            for (BaseUserVO baseUserVO : pager.getDataList()) {
+                baseUserVO.setUserName("<a href=\"javascript:edit('" + baseUserVO.getUserId() + "');\">" + baseUserVO.getUserName() + "</a>");
+                String edit = "<a href=\"javascript:edit('" + baseUserVO.getUserId() + "');\">编辑</a>";
+                String delete = "<a href=\"javascript:deleteId('" + baseUserVO.getUserId() + "');\">删除</a>";
+                baseUserVO.setOper(edit + "&nbsp;" + delete);
             }
         }
 
-        request.setAttribute("pager", pager);
-        request.setAttribute("ipt_userName", request.getParameter("ipt_userName"));
-        return "/view/base/user_list.jsp";
+
+        return pager;
+    }
+
+    @RequestMapping("/selectOne")
+    @ResponseBody
+    public BaseUserVO selectOne(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
+        return baseUserService.selectOne(baseUserQueryVO);
+    }
+
+    @RequestMapping("/noExist")
+    @ResponseBody
+    public boolean noExist(HttpServletRequest request, HttpServletResponse response, BaseUserQueryVO baseUserQueryVO) {
+        if (StringUtils.isNotBlank(baseUserQueryVO.getUserId()))
+            return true;
+        boolean result = baseUserService.noExist(baseUserQueryVO);
+        return result;
     }
 
     @RequestMapping("/save")
     @ResponseBody
-    public String save(HttpServletRequest request, HttpServletResponse response, BaseUserVO baseUserVO) {
-        String result = "false";
-        if(StringUtils.isNotBlank(baseUserVO.getUserId()))
-            result = String.valueOf(baseUserService.update(baseUserVO));
+    public OperResult<BaseUserVO> save(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserVO baseUserVO) {
+        OperResult<BaseUserVO> operResult = null;
+
+        if (StringUtils.isNotBlank(baseUserVO.getUserId()))
+            operResult = baseUserService.update(baseUserVO);
         else
-            result = String.valueOf(baseUserService.insert(baseUserVO));
-        return result;
+            operResult = baseUserService.insert(baseUserVO);
+
+        return operResult;
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public String delete(HttpServletRequest request, HttpServletResponse response, List<String> userIdList) {
-        String result = "false";
-        result = String.valueOf(baseUserService.delete(userIdList));
-        return result;
+    public OperResult<List<String>> delete(HttpServletRequest request, HttpServletResponse response, @RequestBody List<String> userIdList) {
+        return baseUserService.delete(userIdList);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.kandytan.base.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Date;
@@ -102,6 +103,11 @@ public class BaseUserVO {
      * 是否可用name
      */
     private String isEnableName;
+
+    /**
+     * 操作
+     */
+    private String oper;
 
     public String getUserId() {
         return userId;
@@ -221,5 +227,13 @@ public class BaseUserVO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getOper() {
+        return oper;
+    }
+
+    public void setOper(String oper) {
+        this.oper = oper;
     }
 }

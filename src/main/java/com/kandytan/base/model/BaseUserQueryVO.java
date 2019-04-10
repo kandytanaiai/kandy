@@ -1,5 +1,7 @@
 package com.kandytan.base.model;
 
+import com.kandytan.util.Pager;
+
 /**
  * 用户信息查询
  * @Kandy Tan
@@ -15,6 +17,21 @@ public class BaseUserQueryVO {
      */
     private String userName;
 
+    /**
+     * 电话号码
+     */
+    private String tel;
+
+    /**
+     * email
+     */
+    private String email;
+
+    /**
+     * 分页
+     */
+    private Pager pager;
+
     public String getUserId() {
         return userId;
     }
@@ -29,5 +46,29 @@ public class BaseUserQueryVO {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Pager getPager() {
+        return pager;
+    }
+
+    public void setPager(Pager pager) {
+        this.pager = pager;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -13,14 +13,14 @@ import java.util.List;
  */
 public interface BaseUserDao {
 
-    List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO);
+    List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO) throws Exception;
 
-    Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize);
+    Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize) throws Exception;
 
-    boolean insert(List<BaseUserVO> list);
+    boolean insert(List<BaseUserVO> list) throws Exception;
 
-    boolean update(List<BaseUserVO> list);
+    boolean update(List<BaseUserVO> list) throws Exception;
 
-    boolean delete(List<String> userIdList);
+    boolean delete(List<String> userIdList) throws Exception;
 
 }
