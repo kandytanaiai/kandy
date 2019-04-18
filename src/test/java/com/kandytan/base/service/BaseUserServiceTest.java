@@ -4,6 +4,7 @@ import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
+import com.kandytan.util.TestBase;
 import com.kandytan.util.UUID;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
@@ -14,9 +15,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:springContext.xml"})
-public class BaseUserServiceTest {
+public class BaseUserServiceTest extends TestBase {
 
     @Resource
     private BaseUserService baseUserService;

@@ -3,8 +3,10 @@ package com.kandytan.base.dao;
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.util.Pager;
+import com.kandytan.util.TestBase;
 import com.kandytan.util.UUID;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,14 +15,12 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:springContext.xml"})
-public class BaseUserDaoTest {
+public class BaseUserDaoTest extends TestBase {
 
     @Resource
     private BaseUserDao baseUserDao;
 
-//    @Test
+    @Test
     public void testSelectList() {
         BaseUserQueryVO baseUserVOQuery = new BaseUserQueryVO();
         baseUserVOQuery.setUserId("tes");
