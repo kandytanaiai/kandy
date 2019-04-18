@@ -6,6 +6,7 @@
 </head>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/util/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/util/util.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
@@ -38,6 +39,10 @@
     }
 
     function deleteByIds(userIds) {
+        if (!confirm("是否删除已选择记录?")) {
+            return;
+        }
+
         $.ajax({
             type:"POST",
             url:"${pageContext.request.contextPath}/base/user/delete.do",
@@ -83,6 +88,7 @@
 
     function reloadData(userName, currPage, pageSize) {
         $("#table_data tr:not(:first)").empty("");
+        // $("#table_data tr").html("");
         $("#div_pager").html("");
         $.ajax({
             type:"POST",
@@ -91,7 +97,9 @@
             contentType:'application/json;charset=utf-8',
             dataType: "json",
             success:function(pager){
-                fillData(pager);
+                 fillData(pager);
+                // $("#table_data tr:not(:first)").empty("");
+                // $("#table_data tr").append("<td>22</td>");
                 fillPager(pager);
             },
             error:function(data){
@@ -100,39 +108,10 @@
         });
 
     }
-
-    function timestampToTime(timestamp) {
-        if("" == timestamp)
-            return "";
-        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        Y = date.getFullYear() + '-';
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
-
-        h = date.getHours() + ':';
-        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':';
-        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
-        return Y+M+D+h+m+s;
-    }
-
-    function timestampToDate(timestamp) {
-        if("" == timestamp)
-            return "";
-        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        Y = date.getFullYear() + '-';
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
-
-        h = date.getHours() + ':';
-        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':';
-        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
-
-        return Y+M+D;
-    }
     
     function fillData(pager) {
         $.each(pager.dataList, function (n, baseUserVO) {
-            $("#table_data tbody:last").append("<tr>" +
+            $("#table_data").append("<tr>" +
                 "<td><input type=\"checkbox\" id=\"ids\" name=\"ids\" value=\""+baseUserVO.userId+"\"></td>" +
                 "<td>" + baseUserVO.userName + "</td>" +
                 "<td>" + baseUserVO.userTypeName + "</td>" +
@@ -143,8 +122,7 @@
                 "<td>" + baseUserVO.remark + "</td>" +
                 "<td>" + timestampToTime(baseUserVO.createTime) + "</td>" +
                 "<td>" + baseUserVO.isEnableName + "</td>" +
-                "<td>" + baseUserVO.oper + "</td>" +
-                "</tr>");
+                "<td>" + baseUserVO.oper + "</td>"+"</tr>");
         });
 
     }
@@ -160,7 +138,7 @@
     <input id="but_cx" name="but_cx" type="button" onclick="cx();" value="查询">
     <input type="button" onclick="edit();" value="新增">
     <input type="button" onclick="deleteIds();" value="删除">
-<table id="table_data">
+<table id="table_data" border="1">
     <tr>
         <th>选择</th>
         <th>用户名称</th>

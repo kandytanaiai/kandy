@@ -1,15 +1,13 @@
 package com.kandytan.base.dao;
 
-import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.base.model.BaseUserQueryVO;
+import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.util.Pager;
 import com.kandytan.util.UUID;
-import org.junit.Test;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.junit.Assert;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -26,7 +24,12 @@ public class BaseUserDaoTest {
     public void testSelectList() {
         BaseUserQueryVO baseUserVOQuery = new BaseUserQueryVO();
         baseUserVOQuery.setUserId("tes");
-        List<BaseUserVO> baseUserVOList = baseUserDao.selectList(baseUserVOQuery);
+        List<BaseUserVO> baseUserVOList = null;
+        try {
+            baseUserVOList = baseUserDao.selectList(baseUserVOQuery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Assert.assertNotNull(baseUserVOList);
     }
 
@@ -34,7 +37,12 @@ public class BaseUserDaoTest {
     public void testSelectPager() {
         BaseUserQueryVO baseUserVOQuery = new BaseUserQueryVO();
         baseUserVOQuery.setUserId("tes");
-        Pager<BaseUserVO> pager = baseUserDao.selectPager(baseUserVOQuery, 1, 5);
+        Pager<BaseUserVO> pager = null;
+        try {
+            pager = baseUserDao.selectPager(baseUserVOQuery, 1, 5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Assert.assertNotNull(pager);
     }
 
@@ -53,30 +61,53 @@ public class BaseUserDaoTest {
         }
         List<BaseUserVO> list = new ArrayList<BaseUserVO>();
         list.add(baseUserVO);
-        boolean result = baseUserDao.insert(list);
+        boolean result = false;
+        try {
+            result = baseUserDao.insert(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Assert.assertTrue(result);
     }
 
     //    @Test
     public void testUpdate() {
         BaseUserQueryVO baseUserQueryVO = new BaseUserQueryVO();
-        List<BaseUserVO> list = baseUserDao.selectList(baseUserQueryVO);
+        List<BaseUserVO> list = null;
+        try {
+            list = baseUserDao.selectList(baseUserQueryVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         BaseUserVO baseUserVO = list.get(0);
         baseUserVO.setUserName("弹指间");
         if (!baseUserVO.validate()) {
             Assert.assertTrue(false);
             return;
         }
-        boolean result = baseUserDao.update(list);
+        boolean result = false;
+        try {
+            result = baseUserDao.update(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Assert.assertTrue(result);
     }
 
     //    @Test
     public void testDelete() {
         BaseUserQueryVO baseUserQueryVO = new BaseUserQueryVO();
-        List<BaseUserVO> list = baseUserDao.selectList(baseUserQueryVO);
-        boolean result = baseUserDao.delete(list);
-        Assert.assertTrue(result);
+        try {
+            List<BaseUserVO> baseUserVOList = baseUserDao.selectList(baseUserQueryVO);
+            BaseUserVO baseUserVO = baseUserVOList.get(0);
+            List<String> list = new ArrayList<String>();
+            list.add(baseUserVO.getUserId());
+
+            boolean result = baseUserDao.delete(list);
+            Assert.assertTrue(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

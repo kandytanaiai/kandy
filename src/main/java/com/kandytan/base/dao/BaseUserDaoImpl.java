@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.web.BaseUserControl;
+import com.kandytan.util.DaoBase;
 import com.kandytan.util.Pager;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -22,10 +23,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Repository
-public class BaseUserDaoImpl implements BaseUserDao {
-
-    @Resource
-    private SqlSessionTemplate sqlSessionTemplate;
+public class BaseUserDaoImpl extends DaoBase implements BaseUserDao {
 
     @Override
     public List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO) throws Exception {

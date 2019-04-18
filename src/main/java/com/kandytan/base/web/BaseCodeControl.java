@@ -1,11 +1,7 @@
 package com.kandytan.base.web;
 
 import com.kandytan.base.model.BaseCodeVO;
-import com.kandytan.base.model.BaseUserQueryVO;
-import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.base.service.BaseCodeService;
-import com.kandytan.base.service.BaseUserService;
-import com.kandytan.util.Pager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

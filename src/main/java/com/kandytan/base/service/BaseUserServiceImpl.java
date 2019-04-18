@@ -6,6 +6,7 @@ import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
 import com.kandytan.util.UUID;
+import com.kandytan.util.pro.RedisPro;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,8 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Override
     public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO) {
+        String a = RedisPro.getMaxIdle();
+        System.out.println();
         Pager<BaseUserVO> pager = null;
         try {
             pager = baseUserDao.selectPager(baseUserQueryVO, baseUserQueryVO.getPager().getCurrPage(), baseUserQueryVO.getPager().getPageSize());

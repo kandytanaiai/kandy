@@ -3,7 +3,6 @@ package com.kandytan.base.web;
 import com.kandytan.base.model.BaseUserQueryVO;
 import com.kandytan.base.model.BaseUserVO;
 import com.kandytan.base.service.BaseUserService;
-import com.kandytan.test.service.TestService;
 import com.kandytan.util.OperResult;
 import com.kandytan.util.Pager;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
