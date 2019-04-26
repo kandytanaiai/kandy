@@ -43,8 +43,6 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Override
     public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO) {
-        String a = RedisPro.getMaxIdle();
-        System.out.println();
         Pager<BaseUserVO> pager = null;
         try {
             pager = baseUserDao.selectPager(baseUserQueryVO, baseUserQueryVO.getPager().getCurrPage(), baseUserQueryVO.getPager().getPageSize());

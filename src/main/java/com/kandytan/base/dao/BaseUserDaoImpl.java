@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class BaseUserDaoImpl extends DaoBase implements BaseUserDao {
     public Pager<BaseUserVO> selectPager(BaseUserQueryVO baseUserQueryVO, int currPage, int pageSize) throws Exception {
         Page page = PageHelper.startPage(currPage, pageSize, true);
         List<BaseUserVO> baseUserVOList = sqlSessionTemplate.selectList(BaseUserVO.class.getName() + ".selectList", baseUserQueryVO);
+//        List<BaseUserVO> baseUserVOList = new ArrayList<BaseUserVO>();
         Pager<BaseUserVO> pager = new Pager<BaseUserVO>(baseUserVOList, new Long(page.getTotal()).intValue(), currPage, pageSize);
         return pager;
     }

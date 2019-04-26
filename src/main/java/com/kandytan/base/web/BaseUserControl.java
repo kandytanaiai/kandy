@@ -41,7 +41,7 @@ public class BaseUserControl {
 
     @RequestMapping("/selectPager")
     public @ResponseBody
-    Pager<BaseUserVO> selectPager(@RequestBody BaseUserQueryVO baseUserQueryVO) {
+    Pager<BaseUserVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
         Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO);
 
         if (null != pager && null != pager.getDataList() && pager.getDataList().size() > 0) {
