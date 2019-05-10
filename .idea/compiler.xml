@@ -6,9 +6,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="workspaceIdeaTest" />
+        <module name="base-util" />
+        <module name="service-base-api" />
+        <module name="service-base-impl" />
+        <module name="service-eureka" />
+        <module name="service-mall-api" />
+        <module name="service-mall-impl" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="base-eureka" target="6" />
+      <module name="eureka" target="1.8" />
+      <module name="goods" target="1.8" />
+      <module name="order" target="1.8" />
+      <module name="service_order" target="6" />
+      <module name="util" target="6" />
+    </bytecodeTargetLevel>
   </component>
 </project>

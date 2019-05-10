@@ -2,5 +2,22 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/base/base-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/base/base-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/goods" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-base/service-base-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-base/service-base-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-mall" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-mall/service-mall-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-mall/service-mall-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util" charset="UTF-8" />
   </component>
 </project>

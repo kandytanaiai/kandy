@@ -12,7 +12,15 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/base/base-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/goods/pom.xml" />
+        <option value="$PROJECT_DIR$/order/pom.xml" />
+        <option value="$PROJECT_DIR$/service/base/pom.xml" />
+        <option value="$PROJECT_DIR$/service_goods/pom.xml" />
+        <option value="$PROJECT_DIR$/service_order/pom.xml" />
         <option value="$PROJECT_DIR$/test2/pom.xml" />
+        <option value="$PROJECT_DIR$/util/pom.xml" />
       </set>
     </option>
   </component>
