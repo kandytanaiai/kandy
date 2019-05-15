@@ -1,8 +1,10 @@
 spring:
   application:
-    name: provider
+    name: base
+  main:
+      allow-bean-definition-overriding: true
 server:
-  port: 8082
+  port: 8201
 eureka:
   client:
     service-url:

@@ -12,15 +12,30 @@
         <module name="service-eureka" />
         <module name="service-mall-api" />
         <module name="service-mall-impl" />
+        <module name="service-zuul" />
+        <module name="web-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
+      <module name="base" target="6" />
       <module name="base-eureka" target="6" />
+      <module name="base-util" target="6" />
       <module name="eureka" target="1.8" />
       <module name="goods" target="1.8" />
       <module name="order" target="1.8" />
+      <module name="service" target="6" />
+      <module name="service-base" target="6" />
+      <module name="service-base-api" target="6" />
+      <module name="service-base-impl" target="6" />
+      <module name="service-eureka" target="6" />
+      <module name="service-mall" target="6" />
+      <module name="service-mall-api" target="6" />
+      <module name="service-mall-impl" target="6" />
+      <module name="service-zuul" target="6" />
       <module name="service_order" target="6" />
       <module name="util" target="6" />
+      <module name="web" target="1.5" />
+      <module name="web-test" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
