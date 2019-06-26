@@ -8,6 +8,7 @@ import com.kandytan.service.base.api.service.BaseUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,12 +23,17 @@ import java.util.List;
  * @author Kandy Tan
  * @since 1.0
  */
-@RestController
+@Controller
 public class BaseUserControl {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseUserControl.class);
     @Resource
     private BaseUserService baseUserService;
+
+    @RequestMapping("/test111")
+    public String hello() {
+        return "222";
+    }
 
     @RequestMapping("/selectPager")
     public @ResponseBody

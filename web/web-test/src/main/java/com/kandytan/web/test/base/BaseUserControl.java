@@ -17,7 +17,8 @@ public class BaseUserControl {
 
     @RequestMapping("/toUserList")
     public String toUserList(HttpServletRequest request, HttpServletResponse response) {
-        return "/view/base/user_list.jsp";
+//        return "/test.jsp";
+        return "/test.html";
     }
 
     @RequestMapping("/toUserEdit")

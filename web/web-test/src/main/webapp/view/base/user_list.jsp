@@ -87,13 +87,15 @@
     }
 
     function reloadData(userName, currPage, pageSize) {
+        var url1 = 'http://localhost:8201/selectPager';
+        alert(url1);
         $("#table_data tr:not(:first)").empty("");
         // $("#table_data tr").html("");
         $("#div_pager").html("");
         $.ajax({
             type:"POST",
             //url:"${pageContext.request.contextPath}/base/user/selectPager.do",
-            url:"http://localhost:8902/base/user/selectPager.do",
+            url:url1,
             data:JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
             contentType:'application/json;charset=utf-8',
             dataType: "json",
@@ -104,7 +106,7 @@
                 fillPager(pager);
             },
             error:function(data){
-                alert("加载失败");
+                alert("加载失败11");
             }
         });
 

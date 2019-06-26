@@ -8,13 +8,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>service-mall</artifactId>
-    <packaging>pom</packaging>
+
     <modules>
         <module>service-mall-api</module>
         <module>service-mall-impl</module>
     </modules>
-
 
 </project>
