@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<script type="text/javascript" src="../../resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../resources/js/vue_v2.6.10/vue.min.js"></script>
+<script type="text/javascript" src="../../resources/js/vue_v2.6.10/axios.min.js"></script>
+<script type="text/javascript" src="../../resources/util/config_url.js"></script>
+<script type="text/javascript" src="../../resources/util/util.js"></script>
+<link rel="stylesheet" href="../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script type="text/javascript">
+    $(document).ready(function() {
+        cx();
+    });
+
+    function cx() {
+        query(1, 5);
+    }
+
+    function query(currPage, pageSize) {
+        var userName = $("#ipt_userName").val();
+        // alert(userName);
+        reloadData(userName, currPage, pageSize);
+    }
+
+    function reloadData(userName, currPage, pageSize) {
+        axios.post(url_base_user_selectPager,
+            JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
+            {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+            .then(function (pager) {
+                var example1 = new Vue({
+                    el: '#table_data',
+                    data: pager.data
+                });
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function deleteId(userId) {
+        var ids = new Array();
+        ids.push(userId);
+        deleteByIds(ids);
+    }
+
+    function deleteIds() {
+        var ids = new Array();
+        $("input[name='ids']:checked").each(function(){
+            ids.push($(this).val());
+        });
+
+        if(ids.length < 1) {
+            alert("请选中记录");
+            return;
+        }
+        deleteByIds(ids);
+    }
+
+    function deleteByIds(userIds) {
+        if (!confirm("是否删除已选择记录?")) {
+            return;
+        }
+
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/base/user/delete.do",
+            data:JSON.stringify(userIds),
+            contentType: 'application/json;charset=utf-8',
+            dataType:"json",
+            success:function(data){
+                submitOut($("#pager_currPage").val());
+                alert("删除成功");
+            },
+            error:function(data){
+                alert("删除失败");
+            }
+        });
+    }
+
+    function edit(userId) {
+        var title = "用户新增";
+        var url = "${pageContext.request.contextPath}/base/user/toUserEdit.do";
+        if(userId!=null&&userId!=undefined&&userId!="") {
+            title = "用户编辑";
+            url = url + "?userId=" + userId;
+        }
+        $("#ifr_userEdit").attr("src", url);
+
+        $("#div_edit").dialog({
+            height: 500,
+            width: 800,
+            title: title
+        });
+    }
+
+</script>
+<body>
+<input type="text" id="ipt_userName" name="ipt_userName">
+
+<table id="table_data" border="1">
+    <thead>
+    <tr>
+        <th>选择</th>
+        <th>用户名称</th>
+        <th>用户类型</th>
+        <th>性别</th>
+        <th>出生日期</th>
+        <th>电话号码</th>
+        <th>电子邮箱</th>
+        <th>备注</th>
+        <th>创建时间</th>
+        <th>是否可用</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="baseUserVO in dataList">
+        <td><input type='checkbox' id='ids' name='ids' value="{{baseUserVO.userId}}"></td>
+        <td><a href='javascript:edit("{{baseUserVO.userId}}");'>{{baseUserVO.userName}}</a></td>
+        <td v-text = 'baseUserVO.userTypeName'/>
+        <td v-text = 'baseUserVO.sexName'/>
+        <td v-text = 'timestampToDate(baseUserVO.birthday)'/>
+        <td v-text = 'baseUserVO.tel'/>
+        <td v-text = 'baseUserVO.email'/>
+        <td v-text = 'baseUserVO.remark'/>
+        <td v-text = 'timestampToTime(baseUserVO.createTime)'/>
+        <td v-text = 'baseUserVO.isEnableName'/>
+        <td>
+            <a href='javascript:edit("{{baseUserVO.userId}}");'>编辑</a>&nbsp;
+            <a href='javascript:deleteId("{{baseUserVO.userId}}");'>删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -6,8 +6,11 @@ spring:
 zuul:
   routes:
     base:
-      path: /base/*
+      path: /action/base/*
       serviceId: base
+    mall:
+      path: /action/mall/*
+      serviceId: mall
 eureka:
   client:
     service-url:

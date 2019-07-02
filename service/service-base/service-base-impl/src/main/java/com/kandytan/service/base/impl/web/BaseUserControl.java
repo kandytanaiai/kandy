@@ -39,17 +39,6 @@ public class BaseUserControl {
     public @ResponseBody
     Pager<BaseUserVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
         Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO);
-
-        if (null != pager && null != pager.getDataList() && pager.getDataList().size() > 0) {
-            for (BaseUserVO baseUserVO : pager.getDataList()) {
-                baseUserVO.setUserName("<a href=\"javascript:edit('" + baseUserVO.getUserId() + "');\">" + baseUserVO.getUserName() + "</a>");
-                String edit = "<a href=\"javascript:edit('" + baseUserVO.getUserId() + "');\">编辑</a>";
-                String delete = "<a href=\"javascript:deleteId('" + baseUserVO.getUserId() + "');\">删除</a>";
-                baseUserVO.setOper(edit + "&nbsp;" + delete);
-            }
-        }
-
-
         return pager;
     }
 
