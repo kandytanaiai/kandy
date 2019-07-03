@@ -13,10 +13,10 @@
 
     <modules>
         <module>service-base</module>
-        <module>service-mall</module>
         <module>service-eureka</module>
-        <module>service-zuul</module>
         <module>service-gateway</module>
+        <module>service-mall</module>
+        <module>service-zuul</module>
     </modules>
 
     <dependencies>
