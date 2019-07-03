@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +28,6 @@ public class BaseUserControl {
     private static final Logger logger = LoggerFactory.getLogger(BaseUserControl.class);
     @Resource
     private BaseUserService baseUserService;
-
-    @RequestMapping("/test111")
-    public String hello() {
-        return "222";
-    }
 
     @RequestMapping("/selectPager")
     public @ResponseBody
