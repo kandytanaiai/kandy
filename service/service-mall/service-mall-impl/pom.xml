@@ -11,4 +11,12 @@
     <artifactId>service-mall-impl</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.kandytan</groupId>
+            <artifactId>service-mall-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
