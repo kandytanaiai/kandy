@@ -2,19 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kandytan.service.mall.api.model.MallGoodsVO">
-    <select id="selectList" parameterType="com.kandytan.service.mall.api.model.MallGoodsVO"
+    <select id="selectList" parameterType="com.kandytan.service.mall.api.model.MallGoodsQueryVO"
             resultType="com.kandytan.service.mall.api.model.MallGoodsVO">
         SELECT
-        bc.code_type AS codeType,
-        bc.code_id AS codeId,
-        bc.code_name AS codeName,
-        bc.is_enable AS isEnable,
-        bc.remark AS remark
+        mg.goods_id AS goodsId,
+        mg.goods_name AS goodsName,
+        mg.goods_unit_id AS goodsUnitId,
+        mg.goods_catagory_id AS goodsCatagoryId,
+        mg.price AS price,
+        mg.description AS description,
+        mg.remark AS remark,
+        mg.create_user_id AS createUserId,
+        mg.create_time AS createTime,
+        mg.is_enable_id AS isEnableId
         FROM
-        base_code bc
-        WHERE bc.is_enable = 1
-        <if test="codeType != null">AND bc.code_type = #{codeType}</if>
-        <if test="codeId != null">AND bc.code_id = #{codeId}</if>
-        <if test="isEnable != null">AND bc.is_enable = #{isEnable}</if>
+        mall_goods mg
+        WHERE
+        mg.is_enable_id = 1
+        <if test="goodsId != null">AND mg.goods_id = #{goodsId}</if>
+        <if test="goodsName != null">AND mg.goods_name = #{goodsName}</if>
+        <if test="description != null">AND mg.description = #{description}</if>
     </select>
+
+    <insert id="insert" parameterType="java.util.List">
+        <![CDATA[
+			INSERT INTO mall_goods(
+				goods_id,
+				goods_name,
+				goods_unit_id,
+				goods_catagory_id,
+				price,
+				description,
+				remark,
+				create_user_id,
+				create_time,
+				is_enable_id
+			)
+			VALUES
+		]]>
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            ( #{item.goodsId}, #{item.goodsName}, #{item.goodsUnitId},
+            #{item.goodsCatagoryId}, #{item.price}, #{item.description},
+            #{item.remark}, #{item.createUserId}, #{item.createTime},
+            #{item.isEnableId})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index"
+                 separator=";">
+            UPDATE mall_goods
+            SET goods_name = #{item.goodsName},
+            goods_unit_id = #{item.goodsUnitId},
+            goods_catagory_id = #{item.goodsCatagoryId},
+            price = #{item.price},
+            description = #{item.description},
+            remark = #{item.remark},
+            create_user_id = #{item.createUserId},
+            create_time = #{item.createTime},
+            is_enable_id = #{item.isEnableId}
+            WHERE goods_id =
+            #{item.goodsId}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index"
+                 separator=";">
+            DELETE FROM mall_goods
+            WHERE goods_id = #{item}
+        </foreach>
+    </delete>
 </mapper>
