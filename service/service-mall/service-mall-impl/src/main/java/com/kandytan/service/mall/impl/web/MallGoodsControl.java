@@ -20,13 +20,14 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0
  */
 @Controller
+@RequestMapping(value = "/goods/")
 public class MallGoodsControl {
 
     private static final Logger logger = LoggerFactory.getLogger(MallGoodsControl.class);
     @Resource
     private MallGoodsService mallGoodsService;
 
-    @RequestMapping("/selectPager")
+    @RequestMapping("selectPager")
     public @ResponseBody
     Pager<MallGoodsVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody MallGoodsQueryVO mallGoodsQueryVO) {
         Pager<MallGoodsVO> pager = mallGoodsService.selectPager(mallGoodsQueryVO);

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>用户列表</title>
 </head>
-<script type="text/javascript" src="../../resources/js/jquery/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../../resources/js/vue_v2.6.10/vue.min.js"></script>
-<script type="text/javascript" src="../../resources/js/vue_v2.6.10/axios.min.js"></script>
-<script type="text/javascript" src="../../resources/util/config_url.js"></script>
-<script type="text/javascript" src="../../resources/util/util.js"></script>
-<link rel="stylesheet" href="../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script type="text/javascript" src="../../../resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/vue.min.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/axios.min.js"></script>
+<script type="text/javascript" src="../../../resources/util/config_url.js"></script>
+<script type="text/javascript" src="../../../resources/util/util.js"></script>
+<link rel="stylesheet" href="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
         cx();
@@ -20,19 +20,22 @@
     }
 
     function query(currPage, pageSize) {
-        var userName = $("#ipt_userName").val();
+        var goodsName = $("#ipt_goods_name").val();
         // alert(userName);
-        reloadData(userName, currPage, pageSize);
+        reloadData(goodsName, currPage, pageSize);
     }
 
-    function reloadData(userName, currPage, pageSize) {
-        axios.post(url_base_user_selectPager,
-            JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
+
+
+    function reloadData(goodsName, currPage, pageSize) {
+        axios.post(url_mall_goods_selectPager,
+            JSON.stringify({"goodsName":goodsName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
             {headers: {'Content-Type': 'application/json;charset=utf-8'}})
             .then(function (pager) {
+                // alert(pager.data);
                 var example1 = new Vue({
                     el: '#table_data',
-                    data: pager.data
+                    data: pager.data,
                 });
             })
             .catch(function (error) {
@@ -97,39 +100,37 @@
 
 </script>
 <body>
-<input type="text" id="ipt_userName" name="ipt_userName">
-
+<input type="text" id="ipt_goods_name" name="ipt_goods_name">
+<button onclick="cx();">查询</button>
 <table id="table_data" border="1">
     <thead>
     <tr>
         <th>选择</th>
-        <th>用户名称</th>
-        <th>用户类型</th>
-        <th>性别</th>
-        <th>出生日期</th>
-        <th>电话号码</th>
-        <th>电子邮箱</th>
+        <th>商品名称</th>
+        <th>商品单位ID</th>
+        <th>商品类别ID</th>
+        <th>单价</th>
         <th>备注</th>
+        <th>创建人</th>
         <th>创建时间</th>
         <th>是否可用</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-for="baseUserVO in dataList">
-        <td><input type='checkbox' id='ids' name='ids' value="{{baseUserVO.userId}}"></td>
-        <td><a href='javascript:edit("{{baseUserVO.userId}}");'>{{baseUserVO.userName}}</a></td>
-        <td v-text = 'baseUserVO.userTypeName'/>
-        <td v-text = 'baseUserVO.sexName'/>
-        <td v-text = 'timestampToDate(baseUserVO.birthday)'/>
-        <td v-text = 'baseUserVO.tel'/>
-        <td v-text = 'baseUserVO.email'/>
-        <td v-text = 'baseUserVO.remark'/>
-        <td v-text = 'timestampToTime(baseUserVO.createTime)'/>
-        <td v-text = 'baseUserVO.isEnableName'/>
+    <tr v-for="mallGoodsVO in dataList">
+        <td><input type='checkbox' id='ids' name='ids' value="{{mallGoodsVO.goodsId}}"></td>
+        <td><a href='javascript:edit("{{mallGoodsVO.goodsId}}");'>{{mallGoodsVO.goodsName}}</a></td>
+        <td v-text = 'mallGoodsVO.goodsUnitId'/>
+        <td v-text = 'mallGoodsVO.goodsCatagoryId'/>
+        <td v-text = 'mallGoodsVO.price'/>
+        <td v-text = 'mallGoodsVO.remark'/>
+        <td v-text = 'mallGoodsVO.createUserId'/>
+        <td v-text = 'timestampToDate(mallGoodsVO.createTime)'/>
+        <td v-text = 'mallGoodsVO.isEnableId'/>
         <td>
-            <a href='javascript:edit("{{baseUserVO.userId}}");'>编辑</a>&nbsp;
-            <a href='javascript:deleteId("{{baseUserVO.userId}}");'>删除</a>
+            <a href='javascript:edit("{{mallGoodsVO.goodsId}}");'>编辑</a>&nbsp;
+            <a href='javascript:deleteId("{{mallGoodsVO.goodsId}}");'>删除</a>
         </td>
     </tr>
     </tbody>

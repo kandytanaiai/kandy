@@ -23,26 +23,27 @@ import java.util.List;
  * @since 1.0
  */
 @Controller
+@RequestMapping(value = "/user/")
 public class BaseUserControl {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseUserControl.class);
     @Resource
     private BaseUserService baseUserService;
 
-    @RequestMapping("/selectPager")
+    @RequestMapping("selectPager")
     public @ResponseBody
     Pager<BaseUserVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
         Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO);
         return pager;
     }
 
-    @RequestMapping("/selectOne")
+    @RequestMapping("selectOne")
     @ResponseBody
     public BaseUserVO selectOne(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
         return baseUserService.selectOne(baseUserQueryVO);
     }
 
-    @RequestMapping("/noExist")
+    @RequestMapping("noExist")
     @ResponseBody
     public boolean noExist(HttpServletRequest request, HttpServletResponse response, BaseUserQueryVO baseUserQueryVO) {
         if (StringUtils.isNotBlank(baseUserQueryVO.getUserId()))
@@ -51,7 +52,7 @@ public class BaseUserControl {
         return result;
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("save")
     @ResponseBody
     public OperResult<BaseUserVO> save(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserVO baseUserVO) {
         OperResult<BaseUserVO> operResult = null;
@@ -64,7 +65,7 @@ public class BaseUserControl {
         return operResult;
     }
 
-    @RequestMapping("/delete")
+    @RequestMapping("delete")
     @ResponseBody
     public OperResult<List<String>> delete(HttpServletRequest request, HttpServletResponse response, @RequestBody List<String> userIdList) {
         return baseUserService.delete(userIdList);

@@ -20,8 +20,7 @@
         WHERE
         mg.is_enable_id = 1
         <if test="goodsId != null">AND mg.goods_id = #{goodsId}</if>
-        <if test="goodsName != null">AND mg.goods_name = #{goodsName}</if>
-        <if test="description != null">AND mg.description = #{description}</if>
+        <if test="goodsName != null">AND mg.goods_name LIKE '%${goodsName}%' </if>
     </select>
 
     <insert id="insert" parameterType="java.util.List">

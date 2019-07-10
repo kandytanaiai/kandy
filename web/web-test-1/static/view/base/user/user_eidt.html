@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>用户列表</title>
 </head>
-<script type="text/javascript" src="../../resources/js/jquery/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../../resources/js/vue_v2.6.10/vue.min.js"></script>
-<script type="text/javascript" src="../../resources/js/vue_v2.6.10/axios.min.js"></script>
-<script type="text/javascript" src="../../resources/util/config_url.js"></script>
-<script type="text/javascript" src="../../resources/util/util.js"></script>
-<link rel="stylesheet" href="../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script type="text/javascript" src="../../../resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/vue.min.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/axios.min.js"></script>
+<script type="text/javascript" src="../../../resources/util/config_url.js"></script>
+<script type="text/javascript" src="../../../resources/util/util.js"></script>
+<link rel="stylesheet" href="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
         cx();
@@ -25,8 +25,6 @@
         reloadData(userName, currPage, pageSize);
     }
 
-
-
     function reloadData(userName, currPage, pageSize) {
         axios.post(url_base_user_selectPager,
             JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
@@ -34,7 +32,7 @@
             .then(function (pager) {
                 var example1 = new Vue({
                     el: '#table_data',
-                    data: pager.data,
+                    data: pager.data
                 });
             })
             .catch(function (error) {
@@ -100,7 +98,7 @@
 </script>
 <body>
 <input type="text" id="ipt_userName" name="ipt_userName">
-<button onclick="cx();">查询</button>
+
 <table id="table_data" border="1">
     <thead>
     <tr>
