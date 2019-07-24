@@ -12,33 +12,35 @@
 <link rel="stylesheet" href="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
     $(document).ready(function() {
-        cx();
+        // cx();
+        var example1 = new Vue({
+            el: '#div_data',
+            data: {pager:{}},
+            created: function() {
+                this.cx(1);
+            },
+            methods: {
+                cx(currPage) {
+                    var pageSize = $("#sel_pageSize").val();
+                    var userName = $("#ipt_userName").val();
+                    axios.post(url_base_user_selectPager,
+                        JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
+                        {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                        .then(function (pager) {
+                            example1.pager = pager.data;
+                        })
+                        .catch(function (error) {
+                        });
+                },
+                delete1(na) {
+                    alert(na);
+                },
+            }
+        });
     });
 
-    function cx() {
-        query(1, 5);
-    }
+    function cx(userName, currPage, pageSize) {
 
-    function query(currPage, pageSize) {
-        var userName = $("#ipt_userName").val();
-        // alert(userName);
-        reloadData(userName, currPage, pageSize);
-    }
-
-
-
-    function reloadData(userName, currPage, pageSize) {
-        axios.post(url_base_user_selectPager,
-            JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
-            {headers: {'Content-Type': 'application/json;charset=utf-8'}})
-            .then(function (pager) {
-                var example1 = new Vue({
-                    el: '#table_data',
-                    data: pager.data,
-                });
-            })
-            .catch(function (error) {
-            });
     }
 
     function deleteId(userId) {
@@ -99,8 +101,10 @@
 
 </script>
 <body>
+<div id="div_data">
 <input type="text" id="ipt_userName" name="ipt_userName">
-<button onclick="cx();">查询</button>
+<button v-on:click="cx(1)">查询</button>
+<button v-on:click="delete1('666')">删除</button>
 <table id="table_data" border="1">
     <thead>
     <tr>
@@ -118,7 +122,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="baseUserVO in dataList">
+    <tr v-for="baseUserVO in pager.dataList">
         <td><input type='checkbox' id='ids' name='ids' value="{{baseUserVO.userId}}"></td>
         <td><a href='javascript:edit("{{baseUserVO.userId}}");'>{{baseUserVO.userName}}</a></td>
         <td v-text = 'baseUserVO.userTypeName'/>
@@ -136,5 +140,21 @@
     </tr>
     </tbody>
 </table>
+    <div v-if="pager.currPage">
+        第<input type="text" v-bind:value="pager.currPage" v-on:keyup.13="cx($event.currentTarget.value)">/{{pager.pageCount}}页
+        &nbsp;共{{pager.recCount}}条记录&nbsp;显示第{{pager.recIndexStart+1}}~{{pager.recIndexEnd+1}}条<br>
+        <button v-on:click="cx(pager.firstPage)">首页</button>
+        <button v-on:click="cx(pager.prePage)">上一页</button>
+        <button v-on:click="cx(pager.nextPage)">下一页</button>
+        <button v-on:click="cx(pager.lastPage)">尾页</button>
+        &nbsp;
+        <select id="sel_pageSize" name="sel_pageSize" v-on:change="cx(pager.currPage)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>条/页
+    </div>
+</div>
+
 </body>
 </html>

@@ -42,6 +42,10 @@ public class MallGoodsVO {
      */
     private String createUserId;
     /**
+     * 创建人名称
+     */
+    private String createUserName;
+    /**
      * 创建时间
      */
     private Date createTime;
@@ -126,7 +130,16 @@ public class MallGoodsVO {
         return isEnableId;
     }
 
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
     public void setEnableId(Boolean enableId) {
         isEnableId = enableId;
     }
+
 }

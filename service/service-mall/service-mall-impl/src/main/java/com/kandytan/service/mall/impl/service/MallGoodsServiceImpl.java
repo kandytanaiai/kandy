@@ -40,6 +40,13 @@ public class MallGoodsServiceImpl implements MallGoodsService {
         Pager<MallGoodsVO> pager = null;
         try {
             pager = mallGoodsDao.selectPager(mallGoodsQueryVO, mallGoodsQueryVO.getPager().getCurrPage(), mallGoodsQueryVO.getPager().getPageSize());
+            List<MallGoodsVO> mallGoodsVOList =  pager.getDataList();
+            if(mallGoodsVOList!=null && mallGoodsVOList.size()>0) {
+                for(int i=0; i<mallGoodsVOList.size(); i++) {
+                    MallGoodsVO mallGoodsVO = mallGoodsVOList.get(i);
+
+                }
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
