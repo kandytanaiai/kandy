@@ -49,15 +49,13 @@ public class Pager<T> implements Serializable {
     public Pager() {
         this.pageSize = 5;
         this.firstPage = 1;
+        this.currPage = 1;
     }
 
     public Pager(int currPage) {
         this();
 
-        if (currPage > 0)
-            this.currPage = currPage;
-        else
-            this.currPage = 1;
+        this.currPage = currPage;
     }
 
     public Pager(int recCount, int currPage) {
