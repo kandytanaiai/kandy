@@ -5,6 +5,7 @@
     <title>用户列表</title>
 </head>
 <script type="text/javascript" src="../../../resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript" src="../../../resources/js/vue_v2.6.10/vue.min.js"></script>
 <script type="text/javascript" src="../../../resources/js/vue_v2.6.10/axios.min.js"></script>
 <script type="text/javascript" src="../../../resources/util/config_url.js"></script>
@@ -32,56 +33,54 @@
                         .catch(function (error) {
                         });
                 },
-                delete1(na) {
-                    alert(na);
+                edit(userId) {
+                    var title = "用户新增";
+                    var url = url_base_user_edit;
+                    if(userId!=null&&userId!=undefined&&userId!="") {
+                        title = "用户编辑";
+                        url = url + "?userId=" + userId;
+                    }
+
+                    $("#ifr_userEdit").attr("src", url);
+
+                    $("#div_edit").dialog({
+                        height: 500,
+                        width: 800,
+                        title: title
+                    });
+                },
+                delete1(userId) {
+                    if (!confirm("是否删除已选择记录?")) {
+                        return;
+                    }
+
+                    var ids = new Array();
+                    if(userId != null) {
+                        ids.push(userId);
+                    } else {
+                        $("input[name='ids']:checked").each(function(){
+                            ids.push($(this).val());
+                        });
+                    }
+                    if(ids.length < 1) {
+                        alert("请选中记录");
+                        return;
+                    }
+
+                    axios.post(url_base_user_delete,
+                        JSON.stringify(ids),
+                        {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                        .then(function (pager) {
+                            alert("删除成功");
+                            example1.pager = pager.data;
+                        })
+                        .catch(function (error) {
+                        });
+
                 },
             }
         });
     });
-
-    function cx(userName, currPage, pageSize) {
-
-    }
-
-    function deleteId(userId) {
-        var ids = new Array();
-        ids.push(userId);
-        deleteByIds(ids);
-    }
-
-    function deleteIds() {
-        var ids = new Array();
-        $("input[name='ids']:checked").each(function(){
-            ids.push($(this).val());
-        });
-
-        if(ids.length < 1) {
-            alert("请选中记录");
-            return;
-        }
-        deleteByIds(ids);
-    }
-
-    function deleteByIds(userIds) {
-        if (!confirm("是否删除已选择记录?")) {
-            return;
-        }
-
-        $.ajax({
-            type:"POST",
-            url:"${pageContext.request.contextPath}/base/user/delete.do",
-            data:JSON.stringify(userIds),
-            contentType: 'application/json;charset=utf-8',
-            dataType:"json",
-            success:function(data){
-                submitOut($("#pager_currPage").val());
-                alert("删除成功");
-            },
-            error:function(data){
-                alert("删除失败");
-            }
-        });
-    }
 
     function edit(userId) {
         var title = "用户新增";
@@ -101,10 +100,13 @@
 
 </script>
 <body>
+<div id="div_edit" style="display:none;">
+    <iframe id ="ifr_userEdit" style="border: 0px;" width='100%' height='100%'></iframe>
+</div>
 <div id="div_data">
 <input type="text" id="ipt_userName" name="ipt_userName">
 <button v-on:click="cx(1)">查询</button>
-<button v-on:click="delete1('666')">删除</button>
+<button v-on:click="delete1()">删除</button>
 <table id="table_data" border="1">
     <thead>
     <tr>
@@ -134,8 +136,8 @@
         <td v-text = 'timestampToTime(baseUserVO.createTime)'/>
         <td v-text = 'baseUserVO.isEnableName'/>
         <td>
-            <a href='javascript:edit("{{baseUserVO.userId}}");'>编辑</a>&nbsp;
-            <a href='javascript:deleteId("{{baseUserVO.userId}}");'>删除</a>
+            <button v-on:click="edit(baseUserVO.userId)">编辑</button>
+            <button v-on:click="delete1(baseUserVO.userId)">删除</button>
         </td>
     </tr>
     </tbody>
