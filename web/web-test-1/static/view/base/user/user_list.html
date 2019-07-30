@@ -50,10 +50,6 @@
                     });
                 },
                 delete1(userId) {
-                    if (!confirm("是否删除已选择记录?")) {
-                        return;
-                    }
-
                     var ids = new Array();
                     if(userId != null) {
                         ids.push(userId);
@@ -64,6 +60,10 @@
                     }
                     if(ids.length < 1) {
                         alert("请选中记录");
+                        return;
+                    }
+
+                    if (!confirm("是否删除已选择记录?")) {
                         return;
                     }
 
@@ -81,23 +81,6 @@
             }
         });
     });
-
-    function edit(userId) {
-        var title = "用户新增";
-        var url = "${pageContext.request.contextPath}/base/user/toUserEdit.do";
-        if(userId!=null&&userId!=undefined&&userId!="") {
-            title = "用户编辑";
-            url = url + "?userId=" + userId;
-        }
-        $("#ifr_userEdit").attr("src", url);
-
-        $("#div_edit").dialog({
-            height: 500,
-            width: 800,
-            title: title
-        });
-    }
-
 </script>
 <body>
 <div id="div_edit" style="display:none;">
@@ -125,8 +108,8 @@
     </thead>
     <tbody>
     <tr v-for="baseUserVO in pager.dataList">
-        <td><input type='checkbox' id='ids' name='ids' value="{{baseUserVO.userId}}"></td>
-        <td><a href='javascript:edit("{{baseUserVO.userId}}");'>{{baseUserVO.userName}}</a></td>
+        <td><input type='checkbox' id='ids' name='ids' v-bind:value="baseUserVO.userId"></td>
+        <td v-text = 'baseUserVO.userName'/>
         <td v-text = 'baseUserVO.userTypeName'/>
         <td v-text = 'baseUserVO.sexName'/>
         <td v-text = 'timestampToDate(baseUserVO.birthday)'/>
