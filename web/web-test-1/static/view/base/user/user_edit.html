@@ -20,14 +20,15 @@
 
     $(document).ready(function () {
         userId = getUrlParam('userId');
+        alert(userId);
         var example1 = new Vue({
             el: '#div_data',
             data: {baseUserVO:{},userTypeList:{},sexList:{}},
             created: function() {
-                this.editDataLoad(userId);
+                this.editDataLoad();
             },
             methods: {
-                editDataLoad(userId) {
+                editDataLoad() {
                     axios.post(url_base_code_selectList,
                         JSON.stringify({"codeType": "user_type_id"}),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
@@ -45,12 +46,50 @@
                         })
                         .catch(function (error) {
                         });
+                    if (userId != null && userId != undefined && userId != "") {
+                        axios.post(url_base_user_selectOne,
+                            JSON.stringify({"userId": userId}),
+                            {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                            .then(function (baseUserVO) {
+                                example1.baseUserVO = baseUserVO.data;
+                                example1.baseUserVO.birthday = timestampToDate(example1.baseUserVO.birthday);
+                                example1.$options.methods.resetModifyMark();
+                            })
+                            .catch(function (error) {
+                            });
+                    }
+                },
+                resetModifyMark() {
+                    $("#frm_sub").data("changed", false);
+                    $("#frm_sub :input").change(function () {
+                        $("#frm_sub").data("changed", true);
+                    });
+                },
+                cancel() {
+                    if ($("#frm_sub").data("changed")) {
+                        if (!confirm("是否取消已修改内容?")) {
+                            return;
+                        }
+                    }
+                    window.parent.jQuery('#div_edit').dialog('close');
+                },
+                save() {
+                    if (!$("#frm_sub").validate().form()) {
+                        return;
+                    }
 
-                    axios.post(url_base_user_selectOne,
-                        JSON.stringify({"userId": userId}),
+                    axios.post(url_base_user_save,
+                        JSON.stringify($('#frm_sub').serializeJSON()),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
-                        .then(function (baseUserVO) {
-                            example1.baseUserVO = baseUserVO.data;
+                        .then(function (operResult) {
+                            if (operResult.data.flag) {
+                                alert("保存成功");
+
+                                window.parent.submitOut(window.parent.$("#pager_currPage").val());
+                                window.parent.jQuery('#div_edit').dialog('close');
+                            } else {
+                                alert(operResult.msg);
+                            }
                         })
                         .catch(function (error) {
                         });
@@ -130,46 +169,7 @@
             errorClass:
                 "invalid"
         });
-    })
-    ;
-
-    function dataLoad() {
-        var userId = "${userId}";
-        editDataLoad(userId);
-    }
-
-    function editDataLoad(userId) {
-        if (userId != null && userId != undefined && userId != "") {
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/base/user/selectOne.do",
-                data: JSON.stringify({"userId": userId}),
-                contentType: 'application/json;charset=utf-8',
-                dataType: "json",
-                success: function (baseUserVO) {
-                    $("#userName").val(baseUserVO.userName);
-                    $("#userTypeId").val(baseUserVO.userTypeId);
-                    $("#sexId").val(baseUserVO.sexId);
-                    $("#birthday").val(timestampToDate(baseUserVO.birthday));
-                    $("#tel").val(baseUserVO.tel);
-                    $("#email").val(baseUserVO.email);
-                    $("#remark").val(baseUserVO.remark);
-
-                    resetModifyMark();
-                },
-                error: function (data) {
-                    alert("加载失败");
-                }
-            });
-        }
-    }
-
-    function resetModifyMark() {
-        $("#frm_sub").data("changed", false);
-        $("#frm_sub :input").change(function () {
-            $("#frm_sub").data("changed", true);
-        });
-    }
+    });
 
     function save() {
         // var str = JSON.stringify($('#frm_sub').serializeJSON());
@@ -202,27 +202,18 @@
         });
     }
 
-    function cancel() {
-        if ($("#frm_sub").data("changed")) {
-            if (!confirm("是否取消已修改内容?")) {
-                return;
-            }
-        }
-        window.parent.jQuery('#div_edit').dialog('close');
-    }
-
 </script>
 <body>
 <div id="div_data">
 <div>
-    <input type="button" id="btn_reset" name="btn_reset" value="重置" onclick="dataLoad();">
+    <button v-on:click="editDataLoad()">重置</button>
     <input type="button" id="btn_save" name="btn_save" value="保存" onclick="save();">
-    <input type="button" id="btn_cancel" name="btn_cancel" value="取消" onclick="cancel();">
+    <button v-on:click="cancel()">取消</button>
 </div>
 <form id="frm_sub" method="post" action="${pageContext.request.contextPath}/base/user/save.do">
     <table>
         <tr>
-            <td><input type="hidden" id="userId" name="userId" value="${userId}"></td>
+            <td><input type="hidden" id="userId" name="userId" v-model="baseUserVO.userId"></td>
         </tr>
         <tr>
             <td>名称*：<input type="text" id="userName" name="userName" v-model="baseUserVO.userName"/></td>
