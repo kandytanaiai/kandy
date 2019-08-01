@@ -17,11 +17,11 @@
 <script type="text/javascript" src="../../../resources/util/util.js"></script>
 <script type="text/javascript">
     var userId;
+    var vueEdit;
 
     $(document).ready(function () {
         userId = getUrlParam('userId');
-        alert(userId);
-        var example1 = new Vue({
+        vueEdit = new Vue({
             el: '#div_data',
             data: {baseUserVO:{},userTypeList:{},sexList:{}},
             created: function() {
@@ -33,7 +33,8 @@
                         JSON.stringify({"codeType": "user_type_id"}),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
                         .then(function (userTypeList) {
-                            example1.userTypeList = userTypeList.data;
+                            vueEdit.userTypeList = userTypeList.data;
+                            vueEdit.baseUserVO.userTypeId = 2;
                         })
                         .catch(function (error) {
                         });
@@ -42,7 +43,8 @@
                         JSON.stringify({"codeType": "sex_id"}),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
                         .then(function (sexList) {
-                            example1.sexList = sexList.data;
+                            vueEdit.sexList = sexList.data;
+                            vueEdit.baseUserVO.sexId = 1;
                         })
                         .catch(function (error) {
                         });
@@ -51,9 +53,9 @@
                             JSON.stringify({"userId": userId}),
                             {headers: {'Content-Type': 'application/json;charset=utf-8'}})
                             .then(function (baseUserVO) {
-                                example1.baseUserVO = baseUserVO.data;
-                                example1.baseUserVO.birthday = timestampToDate(example1.baseUserVO.birthday);
-                                example1.$options.methods.resetModifyMark();
+                                vueEdit.baseUserVO = baseUserVO.data;
+                                vueEdit.baseUserVO.birthday = timestampToDate(vueEdit.baseUserVO.birthday);
+                                vueEdit.$options.methods.resetModifyMark();
                             })
                             .catch(function (error) {
                             });
@@ -85,7 +87,7 @@
                             if (operResult.data.flag) {
                                 alert("保存成功");
 
-                                window.parent.submitOut(window.parent.$("#pager_currPage").val());
+                                window.parent.vueList.$options.methods.cx(window.parent.vueList.pager.currPage);
                                 window.parent.jQuery('#div_edit').dialog('close');
                             } else {
                                 alert(operResult.msg);
@@ -112,11 +114,11 @@
                     required: true,
                     remote: {
                         type: "POST",
-                        url: "${pageContext.request.contextPath}/base/user/noExist.do",
+                        url: url_base_user_noExist,
                         data: {
                             tel: function () {
                                 return $("#tel").val();
-                            },userId:"${userId}"
+                            },userId:"33"
                         }
                     }
                 },
@@ -124,11 +126,11 @@
                     required: true,
                     remote: {
                         type: "POST",
-                        url: "${pageContext.request.contextPath}/base/user/noExist.do",
+                        url: url_base_user_noExist,
                         data: {
                             email: function () {
                                 return $("#email").val();
-                            },userId:"${userId}"
+                            },userId:"444"
                         }
                     }
                 }
@@ -171,43 +173,12 @@
         });
     });
 
-    function save() {
-        // var str = JSON.stringify($('#frm_sub').serializeJSON());
-        // alert(str);
-        // return;
-
-        if (!$("#frm_sub").validate().form()) {
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/base/user/save.do",
-            data: JSON.stringify($('#frm_sub').serializeJSON()),
-            contentType: 'application/json;charset=utf-8',
-            dataType: "json",
-            success: function (operResult) {
-                if (operResult.flag) {
-                    alert("保存成功");
-
-                    window.parent.submitOut(window.parent.$("#pager_currPage").val());
-                    window.parent.jQuery('#div_edit').dialog('close');
-                } else {
-                    alert(operResult.msg);
-                }
-            },
-            error: function (data) {
-                alert("保存失败");
-            }
-        });
-    }
-
 </script>
 <body>
 <div id="div_data">
 <div>
     <button v-on:click="editDataLoad()">重置</button>
-    <input type="button" id="btn_save" name="btn_save" value="保存" onclick="save();">
+    <button v-on:click="save()">保存</button>
     <button v-on:click="cancel()">取消</button>
 </div>
 <form id="frm_sub" method="post" action="${pageContext.request.contextPath}/base/user/save.do">

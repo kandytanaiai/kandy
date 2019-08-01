@@ -7,6 +7,7 @@ var url_base_user_delete = domain + request_type_action + "/"+ model_base  + "/u
 var url_base_user_edit = domain + request_type_static + "/"+ model_base  + "/user/user_edit.html";
 var url_base_user_selectOne = domain + request_type_action + "/"+ model_base  + "/user/selectOne";
 var url_base_user_save = domain + request_type_action + "/"+ model_base  + "/user/save";
+var url_base_user_noExist = domain + request_type_action + "/"+ model_base  + "/user/noExist";
 
 var url_base_code_selectList = domain + request_type_action + "/"+ model_base  + "/code/selectList";
 

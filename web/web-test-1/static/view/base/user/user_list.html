@@ -12,9 +12,10 @@
 <script type="text/javascript" src="../../../resources/util/util.js"></script>
 <link rel="stylesheet" href="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
 <script type="text/javascript">
+    var vueList;
     $(document).ready(function() {
         // cx();
-        var example1 = new Vue({
+        vueList = new Vue({
             el: '#div_data',
             data: {pager:{}},
             created: function() {
@@ -28,7 +29,7 @@
                         JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
                         .then(function (pager) {
-                            example1.pager = pager.data;
+                            vueList.pager = pager.data;
                         })
                         .catch(function (error) {
                         });
@@ -46,7 +47,10 @@
                     $("#div_edit").dialog({
                         height: 500,
                         width: 800,
-                        title: title
+                        title: title,
+                        close: function(event, ui) {
+
+                        }
                     });
                 },
                 delete1(userId) {
@@ -71,8 +75,8 @@
                         JSON.stringify(ids),
                         {headers: {'Content-Type': 'application/json;charset=utf-8'}})
                         .then(function (pager) {
+                            vueList.$options.methods.cx(vueList.pager.currPage);
                             alert("删除成功");
-                            example1.pager = pager.data;
                         })
                         .catch(function (error) {
                         });
