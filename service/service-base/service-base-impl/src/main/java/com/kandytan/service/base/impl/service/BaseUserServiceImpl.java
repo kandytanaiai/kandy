@@ -67,10 +67,17 @@ public class BaseUserServiceImpl implements BaseUserService {
         } else if(StringUtils.isNotBlank(baseUserQueryVO.getEmail())) {
             baseUserQueryVOQ.setEmail(baseUserQueryVO.getEmail());
         } else {
-            return true;
+            return false;
         }
         BaseUserVO baseUserVO = this.selectOne(baseUserQueryVOQ);
-        return null == baseUserVO;
+        if(null != baseUserVO) {
+            if(baseUserVO.getUserId().equals(baseUserQueryVO.getUserId()))
+                return true;
+            else
+                return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

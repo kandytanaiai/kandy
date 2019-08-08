@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -43,11 +44,24 @@ public class BaseUserControl {
         return baseUserService.selectOne(baseUserQueryVO);
     }
 
-    @RequestMapping("noExist")
+    @RequestMapping(value = "noExist", method = RequestMethod.POST)
     @ResponseBody
-    public boolean noExist(HttpServletRequest request, HttpServletResponse response, BaseUserQueryVO baseUserQueryVO) {
-        if (StringUtils.isNotBlank(baseUserQueryVO.getUserId()))
-            return true;
+    public boolean noExist(HttpServletRequest request, HttpServletResponse response) {
+        String userId = request.getParameter("userId");
+        String tel = request.getParameter("tel");
+        String email = request.getParameter("email");
+        if(StringUtils.isBlank(tel) && StringUtils.isBlank(email)) {
+            return false;
+        }
+        BaseUserQueryVO baseUserQueryVO = new BaseUserQueryVO();
+        baseUserQueryVO.setUserId(userId);
+        if(StringUtils.isNotBlank(tel)) {
+            baseUserQueryVO.setTel(tel);
+        }
+        if(StringUtils.isNotBlank(email)) {
+            baseUserQueryVO.setEmail(email);
+        }
+
         boolean result = baseUserService.noExist(baseUserQueryVO);
         return result;
     }

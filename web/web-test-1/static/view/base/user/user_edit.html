@@ -59,15 +59,21 @@
                             })
                             .catch(function (error) {
                             });
+                    } else {
+                        vueEdit.$options.methods.resetModifyMark();
                     }
                 },
                 resetModifyMark() {
+                    // alert('fff');
                     $("#frm_sub").data("changed", false);
                     $("#frm_sub :input").change(function () {
                         $("#frm_sub").data("changed", true);
                     });
+                    $("#frm_sub").validate().resetForm();
                 },
                 cancel() {
+                    // alert($("#frm_sub").data("changed"));
+                    // return ;
                     if ($("#frm_sub").data("changed")) {
                         if (!confirm("是否取消已修改内容?")) {
                             return;
@@ -118,7 +124,7 @@
                         data: {
                             tel: function () {
                                 return $("#tel").val();
-                            },userId:"33"
+                            },userId:userId
                         }
                     }
                 },
@@ -130,7 +136,7 @@
                         data: {
                             email: function () {
                                 return $("#email").val();
-                            },userId:"444"
+                            },userId:userId
                         }
                     }
                 }
