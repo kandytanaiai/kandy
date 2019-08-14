@@ -18,9 +18,14 @@
 <script type="text/javascript">
     var userId;
     var vueEdit;
-
+    var editType;
     $(document).ready(function () {
         userId = getUrlParam('userId');
+        if (userId != null && userId != undefined && userId != "") {
+            editType = "edit";
+        } else {
+            editType = "add";
+        }
         vueEdit = new Vue({
             el: '#div_data',
             data: {baseUserVO:{},userTypeList:{},sexList:{}},
@@ -48,7 +53,8 @@
                         })
                         .catch(function (error) {
                         });
-                    if (userId != null && userId != undefined && userId != "") {
+
+                    if ("edit" == editType) {
                         axios.post(url_base_user_selectOne,
                             JSON.stringify({"userId": userId}),
                             {headers: {'Content-Type': 'application/json;charset=utf-8'}})
@@ -60,11 +66,13 @@
                             .catch(function (error) {
                             });
                     } else {
-                        vueEdit.$options.methods.resetModifyMark();
+                        this.baseUserVO = {};
+                        this.baseUserVO.userTypeId = 2;
+                        this.baseUserVO.sexId = 1;
+                        this.resetModifyMark();
                     }
                 },
                 resetModifyMark() {
-                    // alert('fff');
                     $("#frm_sub").data("changed", false);
                     $("#frm_sub :input").change(function () {
                         $("#frm_sub").data("changed", true);
