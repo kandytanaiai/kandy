@@ -17,6 +17,7 @@
         <module>service-gateway</module>
         <module>service-mall</module>
         <module>service-zuul</module>
+        <module>service-auth</module>
     </modules>
 
     <dependencies>

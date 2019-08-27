@@ -47,5 +47,15 @@ public class MallGoodsControl {
         return pager;
     }
 
+    @RequestMapping("selectUserPager")
+    public @ResponseBody
+    Pager<BaseUserVO> selectUserPager(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
+        Pager<BaseUserVO> userPager = baseUserServiceClient.selectPager(baseUserQueryVO);
+        List<BaseUserVO> baseUserVOList = userPager.getDataList();
+        System.out.println(baseUserVOList.size());
+
+        return userPager;
+    }
+
 
 }

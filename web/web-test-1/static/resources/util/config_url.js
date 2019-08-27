@@ -13,3 +13,4 @@ var url_base_code_selectList = domain + request_type_action + "/"+ model_base  +
 
 var model_mall = "mall";
 var url_mall_goods_selectPager = domain + request_type_action + "/"+ model_mall  + "/goods/selectPager";
+var url_mall_goods_selectUserPager = domain + request_type_action + "/"+ model_mall  + "/goods/selectUserPager";

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品列表</title>
+</head>
+<script type="text/javascript" src="../../../resources/js/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/vue.min.js"></script>
+<script type="text/javascript" src="../../../resources/js/vue_v2.6.10/axios.min.js"></script>
+<script type="text/javascript" src="../../../resources/util/config_url.js"></script>
+<script type="text/javascript" src="../../../resources/util/util.js"></script>
+<link rel="stylesheet" href="../../../resources/util/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script type="text/javascript">
+    var vueList;
+    $(document).ready(function() {
+        // cx();
+        vueList = new Vue({
+            el: '#div_data',
+            data: {pager:{}},
+            created: function() {
+                this.cx(1);
+            },
+            methods: {
+                cx(currPage) {
+                    var pageSize = $("#sel_pageSize").val();
+                    var userName = $("#ipt_userName").val();
+                    axios.post(url_mall_goods_selectUserPager,
+                        JSON.stringify({"userName":userName, "pager":{"currPage":currPage, "pageSize":pageSize}}),
+                        {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                        .then(function (pager) {
+                            vueList.pager = pager.data;
+                        })
+                        .catch(function (error) {
+                        });
+                },
+                edit(userId) {
+                    var title = "用户新增";
+                    var url = url_base_user_edit;
+                    if(userId!=null&&userId!=undefined&&userId!="") {
+                        title = "用户编辑";
+                        url = url + "?userId=" + userId;
+                    }
+
+                    $("#ifr_userEdit").attr("src", url);
+
+                    $("#div_edit").dialog({
+                        height: 500,
+                        width: 800,
+                        title: title,
+                        close: function(event, ui) {
+
+                        }
+                    });
+                },
+                delete1(userId) {
+                    var ids = new Array();
+                    if(userId != null) {
+                        ids.push(userId);
+                    } else {
+                        $("input[name='ids']:checked").each(function(){
+                            ids.push($(this).val());
+                        });
+                    }
+                    if(ids.length < 1) {
+                        alert("请选中记录");
+                        return;
+                    }
+
+                    if (!confirm("是否删除已选择记录?")) {
+                        return;
+                    }
+
+                    axios.post(url_base_user_delete,
+                        JSON.stringify(ids),
+                        {headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                        .then(function (pager) {
+                            vueList.$options.methods.cx(vueList.pager.currPage);
+                            alert("删除成功");
+                        })
+                        .catch(function (error) {
+                        });
+
+                },
+            }
+        });
+    });
+</script>
+<body>
+<div id="div_edit" style="display:none;">
+    <iframe id ="ifr_userEdit" style="border: 0px;" width='100%' height='100%'></iframe>
+</div>
+<div id="div_data">
+<input type="text" id="ipt_userName" name="ipt_userName">
+<button v-on:click="cx(1)">查询</button>
+<button v-on:click="edit()">新增</button>
+<button v-on:click="delete1()">删除</button>
+<table id="table_data" border="1">
+    <thead>
+    <tr>
+        <th>选择</th>
+        <th>用户名称</th>
+        <th>用户类型</th>
+        <th>性别</th>
+        <th>出生日期</th>
+        <th>电话号码</th>
+        <th>电子邮箱</th>
+        <th>备注</th>
+        <th>创建时间</th>
+        <th>是否可用</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="baseUserVO in pager.dataList">
+        <td><input type='checkbox' id='ids' name='ids' v-bind:value="baseUserVO.userId"></td>
+        <td v-text = 'baseUserVO.userName'/>
+        <td v-text = 'baseUserVO.userTypeName'/>
+        <td v-text = 'baseUserVO.sexName'/>
+        <td v-text = 'timestampToDate(baseUserVO.birthday)'/>
+        <td v-text = 'baseUserVO.tel'/>
+        <td v-text = 'baseUserVO.email'/>
+        <td v-text = 'baseUserVO.remark'/>
+        <td v-text = 'timestampToTime(baseUserVO.createTime)'/>
+        <td v-text = 'baseUserVO.isEnableName'/>
+        <td>
+            <button v-on:click="edit(baseUserVO.userId)">编辑</button>
+            <button v-on:click="delete1(baseUserVO.userId)">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+    <div v-if="pager.currPage">
+        第<input type="text" v-bind:value="pager.currPage" v-on:keyup.13="cx($event.currentTarget.value)">/{{pager.pageCount}}页
+        &nbsp;共{{pager.recCount}}条记录&nbsp;显示第{{pager.recIndexStart+1}}~{{pager.recIndexEnd+1}}条<br>
+        <button v-on:click="cx(pager.firstPage)">首页</button>
+        <button v-on:click="cx(pager.prePage)">上一页</button>
+        <button v-on:click="cx(pager.nextPage)">下一页</button>
+        <button v-on:click="cx(pager.lastPage)">尾页</button>
+        &nbsp;
+        <select id="sel_pageSize" name="sel_pageSize" v-on:change="cx(pager.currPage)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>条/页
+    </div>
+</div>
+
+</body>
+</html>
