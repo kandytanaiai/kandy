@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +57,14 @@ public class MallGoodsControl {
         System.out.println(baseUserVOList.size());
 
         return userPager;
+    }
+
+    public static void main(String[] args) {
+
+        String a = "005";
+        String b = "006";
+
+        System.out.println(a.compareTo(b));
     }
 
 

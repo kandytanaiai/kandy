@@ -11,4 +11,8 @@
     <artifactId>service-eureka</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.jar.mainclass>com.kandytan.service.eureka.Application</maven.jar.mainclass>
+    </properties>
+
 </project>

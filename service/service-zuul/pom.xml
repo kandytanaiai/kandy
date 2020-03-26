@@ -11,6 +11,10 @@
     <artifactId>service-zuul</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.jar.mainclass>com.kandytan.service.zuul.Application</maven.jar.mainclass>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

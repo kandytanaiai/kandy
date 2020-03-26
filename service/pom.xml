@@ -12,12 +12,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>service-base</module>
         <module>service-eureka</module>
         <module>service-gateway</module>
-        <module>service-mall</module>
         <module>service-zuul</module>
         <module>service-auth</module>
+        <module>service-base</module>
+        <module>service-mall</module>
+        <module>service-config</module>
+        <module>service-config-client</module>
     </modules>
 
     <dependencies>

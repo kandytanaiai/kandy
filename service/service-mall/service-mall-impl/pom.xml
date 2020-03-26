@@ -11,6 +11,10 @@
     <artifactId>service-mall-impl</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.jar.mainclass>com.kandytan.service.mall.impl.Application</maven.jar.mainclass>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.kandytan</groupId>
