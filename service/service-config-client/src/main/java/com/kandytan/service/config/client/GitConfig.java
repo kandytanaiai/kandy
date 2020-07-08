@@ -1,19 +1,34 @@
 package com.kandytan.service.config.client;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties(prefix = "data")
 public class GitConfig {
 
-    @Value("${data.env}")
-    private String env;
+    public static class UserInfo {
+        private String username;
 
-    @Value("${data.user.username}")
-    private String username;
+        private String password;
 
-    @Value("${data.user.password}")
-    private String password;
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
 
     public String getEnv() {
         return env;
@@ -23,19 +38,18 @@ public class GitConfig {
         this.env = env;
     }
 
-    public String getUsername() {
-        return username;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
-    public String getPassword() {
-        return password;
-    }
+    private String env;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private UserInfo user;
+
+
+
 }

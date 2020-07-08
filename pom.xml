@@ -21,7 +21,7 @@
     <modules>
         <module>base</module>
         <module>service</module>
-        <module>service-config-client</module>
+        <module>test1</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -134,6 +134,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>3.2.0</version>
         </dependency>
     </dependencies>
 

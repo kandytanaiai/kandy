@@ -1,5 +1,9 @@
 server:
   port: 3302
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8760/eureka/
 management:
   endpoint:
     shutdown:
