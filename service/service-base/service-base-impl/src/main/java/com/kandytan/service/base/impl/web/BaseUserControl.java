@@ -4,15 +4,15 @@ import com.kandytan.base.util.OperResult;
 import com.kandytan.base.util.Pager;
 import com.kandytan.service.base.api.model.BaseUserQueryVO;
 import com.kandytan.service.base.api.model.BaseUserVO;
+import com.kandytan.service.base.api.model.GitConfig;
 import com.kandytan.service.base.api.service.BaseUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +23,22 @@ import java.util.List;
  * @author Kandy Tan
  * @since 1.0
  */
-@Controller
+@RestController
 @RequestMapping(value = "/user/")
+@RefreshScope
 public class BaseUserControl {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseUserControl.class);
     @Resource
     private BaseUserService baseUserService;
+
+    @Autowired
+    private GitConfig gitConfig;
+
+    @GetMapping(value = "show")
+    public Object show(){
+        return gitConfig;
+    }
 
     @RequestMapping("selectPager")
     public @ResponseBody

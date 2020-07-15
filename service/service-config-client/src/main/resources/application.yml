@@ -5,13 +5,15 @@ eureka:
     service-url:
       defaultZone: http://localhost:8760/eureka/
 management:
-  endpoint:
-    shutdown:
-      enabled: false
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: bus-env,bus-refresh
+  endpoint:
+    health:
+      show-details: always
+    refresh:
+      enabled: true
 
 data:
   env: NaN

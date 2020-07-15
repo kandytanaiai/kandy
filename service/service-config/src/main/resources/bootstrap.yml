@@ -10,3 +10,17 @@ spring:
           password: k5225354
           default-label: master #配置文件分支
           search-paths: config  #配置文件所在根目录
+  rabbitmq:   # rabbitmq的配置信息
+    host: 192.168.1.204
+    port: 5672
+    username: root
+    password: 5225354
+
+management:   # 管理端信息
+  endpoints:
+    web:
+      exposure:
+        include: bus-env,bus-refresh  # 暴露端点
+  endpoint:
+    health:
+      show-details: always  # 日志显示时机
