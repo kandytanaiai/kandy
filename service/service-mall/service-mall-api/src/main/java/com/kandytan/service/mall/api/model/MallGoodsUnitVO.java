@@ -9,7 +9,7 @@ public class MallGoodsUnitVO {
     /**
      *  商品单位ID
      */
-    private String goodsUnitId;
+    private Long goodsUnitId;
     /**
      *  商品单位名称
      */
@@ -19,11 +19,11 @@ public class MallGoodsUnitVO {
      */
     private Boolean isEnableId;
 
-    public String getGoodsUnitId() {
+    public Long getGoodsUnitId() {
         return goodsUnitId;
     }
 
-    public void setGoodsUnitId(String goodsUnitId) {
+    public void setGoodsUnitId(Long goodsUnitId) {
         this.goodsUnitId = goodsUnitId;
     }
 

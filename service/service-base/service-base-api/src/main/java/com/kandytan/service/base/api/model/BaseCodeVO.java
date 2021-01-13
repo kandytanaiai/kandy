@@ -13,7 +13,7 @@ public class BaseCodeVO {
     /**
      * 代码id *
      */
-    private String codeId;
+    private Integer codeId;
 
     /**
      * 代码名称 *
@@ -23,7 +23,7 @@ public class BaseCodeVO {
     /**
      * 是否可用：0不可用；1可用； *
      */
-    private String isEnable;
+    private Integer isEnable;
 
     /**
      * 备注
@@ -38,11 +38,11 @@ public class BaseCodeVO {
         this.codeType = codeType;
     }
 
-    public String getCodeId() {
+    public Integer getCodeId() {
         return codeId;
     }
 
-    public void setCodeId(String codeId) {
+    public void setCodeId(Integer codeId) {
         this.codeId = codeId;
     }
 
@@ -54,11 +54,11 @@ public class BaseCodeVO {
         this.codeName = codeName;
     }
 
-    public String getIsEnable() {
+    public Integer getIsEnable() {
         return isEnable;
     }
 
-    public void setIsEnable(String isEnable) {
+    public void setIsEnable(Integer isEnable) {
         this.isEnable = isEnable;
     }
 

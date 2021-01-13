@@ -43,7 +43,7 @@ public class BaseUserDaoImpl extends DaoBase implements BaseUserDao {
     }
 
     @Override
-    public boolean delete(List<String> userIdList) throws Exception {
+    public boolean delete(List<Long> userIdList) throws Exception {
         int result = sqlSessionTemplate.delete(BaseUserVO.class.getName() + ".delete", userIdList);
         return result > 0 ? true : false;
     }

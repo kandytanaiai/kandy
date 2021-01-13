@@ -11,7 +11,7 @@ public class GoodsCatagoryVO {
     /**
      *  商品类别ID
      */
-    private String goodsCatagoryId;
+    private Long goodsCatagoryId;
     /**
      *  商品类别名称
      */
@@ -23,7 +23,7 @@ public class GoodsCatagoryVO {
     /**
      *  创建人ID
      */
-    private String createUserId;
+    private Long createUserId;
     /**
      * 创建时间
      */
@@ -32,14 +32,6 @@ public class GoodsCatagoryVO {
      * 是否可用
      */
     private Boolean isEnableId;
-
-    public String getGoodsCatagoryId() {
-        return goodsCatagoryId;
-    }
-
-    public void setGoodsCatagoryId(String goodsCatagoryId) {
-        this.goodsCatagoryId = goodsCatagoryId;
-    }
 
     public String getGoodsCatagoryName() {
         return goodsCatagoryName;
@@ -57,11 +49,19 @@ public class GoodsCatagoryVO {
         this.remark = remark;
     }
 
-    public String getCreateUserId() {
+    public Long getGoodsCatagoryId() {
+        return goodsCatagoryId;
+    }
+
+    public void setGoodsCatagoryId(Long goodsCatagoryId) {
+        this.goodsCatagoryId = goodsCatagoryId;
+    }
+
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 

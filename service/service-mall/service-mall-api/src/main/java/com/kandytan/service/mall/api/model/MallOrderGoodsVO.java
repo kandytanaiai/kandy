@@ -9,11 +9,11 @@ public class MallOrderGoodsVO {
     /**
      *  订单商品ID
      */
-    private String orderGoodsId;
+    private Long orderGoodsId;
     /**
      *  商品ID
      */
-    private String goodsId;
+    private Long goodsId;
     /**
      *  商品名称
      */
@@ -25,7 +25,7 @@ public class MallOrderGoodsVO {
     /**
      *  单位ID
      */
-    private String unitId;
+    private Long unitId;
     /**
      *  单位名称
      */
@@ -33,7 +33,7 @@ public class MallOrderGoodsVO {
     /**
      *  颜色ID
      */
-    private String colorId;
+    private Long colorId;
     /**
      *  颜色名称
      */
@@ -41,7 +41,7 @@ public class MallOrderGoodsVO {
     /**
      *  尺码ID
      */
-    private String sizeId;
+    private Long sizeId;
     /**
      *  尺码名称
      */
@@ -59,22 +59,6 @@ public class MallOrderGoodsVO {
      */
     private String remark;
 
-    public String getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(String orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
-    }
-
-    public String getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId;
-    }
-
     public String getGoodsName() {
         return goodsName;
     }
@@ -91,28 +75,12 @@ public class MallOrderGoodsVO {
         this.price = price;
     }
 
-    public String getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(String unitId) {
-        this.unitId = unitId;
-    }
-
     public String getUnitName() {
         return unitName;
     }
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
-    }
-
-    public String getColorId() {
-        return colorId;
-    }
-
-    public void setColorId(String colorId) {
-        this.colorId = colorId;
     }
 
     public String getColorName() {
@@ -123,11 +91,43 @@ public class MallOrderGoodsVO {
         this.colorName = colorName;
     }
 
-    public String getSizeId() {
+    public Long getOrderGoodsId() {
+        return orderGoodsId;
+    }
+
+    public void setOrderGoodsId(Long orderGoodsId) {
+        this.orderGoodsId = orderGoodsId;
+    }
+
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Long getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Long unitId) {
+        this.unitId = unitId;
+    }
+
+    public Long getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(Long colorId) {
+        this.colorId = colorId;
+    }
+
+    public Long getSizeId() {
         return sizeId;
     }
 
-    public void setSizeId(String sizeId) {
+    public void setSizeId(Long sizeId) {
         this.sizeId = sizeId;
     }
 

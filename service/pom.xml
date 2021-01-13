@@ -21,6 +21,7 @@
         <module>service-config-client</module>
         <module>service-auth</module>
         <module>service-zipkin</module>
+        <module>service-component</module>
     </modules>
 
     <dependencies>

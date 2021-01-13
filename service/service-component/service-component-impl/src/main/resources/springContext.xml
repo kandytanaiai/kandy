@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+    <context:property-placeholder location="classpath:/pro/*.properties"/>
+    <context:component-scan base-package="com.kandytan.*"></context:component-scan>
+    <bean id="snowflakeService" class="com.sankuai.inf.leaf.service.SnowflakeService">
+        <constructor-arg type="java.lang.String" value="${leaf.snowflake.address}"></constructor-arg>
+        <constructor-arg type="int" value="${leaf.snowflake.port}"></constructor-arg>
+    </bean>
+    <!--<mvc:annotation-driven/>-->
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.kandytan.base.util.EmptyStringToNullModelAttributeMethodProcessor">
+                <constructor-arg name="annotationNotRequired" value="true"/>
+            </bean>
+        </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.kandytan.base.util.JsonObjectMapper"></bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+</beans>

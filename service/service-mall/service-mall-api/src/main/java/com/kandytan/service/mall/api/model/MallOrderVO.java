@@ -12,7 +12,7 @@ public class MallOrderVO {
     /**
      *  订单ID
      */
-    private String orderId;
+    private Long orderId;
     /**
      *  订单号
      */
@@ -32,7 +32,7 @@ public class MallOrderVO {
     /**
      *  医院ID
      */
-    private String hospitalId;
+    private Long hospitalId;
     /**
      *  医院名称
      */
@@ -40,7 +40,7 @@ public class MallOrderVO {
     /**
      *  创建人ID
      */
-    private String createUserId;
+    private Long createUserId;
     /**
      *  创建人名称
      */
@@ -49,14 +49,6 @@ public class MallOrderVO {
      *  创建时间
      */
     private Date createTime;
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
 
     public String getOrderNo() {
         return orderNo;
@@ -90,14 +82,6 @@ public class MallOrderVO {
         this.remark = remark;
     }
 
-    public String getHospitalId() {
-        return hospitalId;
-    }
-
-    public void setHospitalId(String hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
     public String getHospitalName() {
         return hospitalName;
     }
@@ -106,11 +90,27 @@ public class MallOrderVO {
         this.hospitalName = hospitalName;
     }
 
-    public String getCreateUserId() {
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(Long hospitalId) {
+        this.hospitalId = hospitalId;
+    }
+
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 

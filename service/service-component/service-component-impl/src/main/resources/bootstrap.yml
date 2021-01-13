@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: prod
+  application:
+    name: config-single-client
+  cloud:
+    config:
+      uri: http://localhost:3301
+      label: master
+      profile: prod
+
+---
+spring:
+  profiles: dev
+  application:
+    name: config-single-client
+  cloud:
+    config:
+      uri: http://localhost:3301
+      label: master
+      profile: dev
+  rabbitmq: # Rabbit Mq 配置信息
+    host: 192.168.1.204
+    port: 5672
+    username: root
+    password: 5225354
+
+---

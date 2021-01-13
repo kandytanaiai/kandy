@@ -4,14 +4,11 @@ import com.kandytan.base.util.OperResult;
 import com.kandytan.base.util.Pager;
 import com.kandytan.service.base.api.model.BaseUserQueryVO;
 import com.kandytan.service.base.api.model.BaseUserVO;
-import com.kandytan.service.base.api.model.GitConfig;
 import com.kandytan.service.base.api.service.BaseUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,16 +29,8 @@ public class BaseUserControl {
     @Resource
     private BaseUserService baseUserService;
 
-    @Autowired
-    private GitConfig gitConfig;
-
-    @GetMapping(value = "show")
-    public Object show(){
-        return gitConfig;
-    }
-
     @RequestMapping("selectPager")
-    public @ResponseBody
+    public
     Pager<BaseUserVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserQueryVO baseUserQueryVO) {
         Pager<BaseUserVO> pager = baseUserService.selectPager(baseUserQueryVO);
         return pager;
@@ -63,7 +52,7 @@ public class BaseUserControl {
             return false;
         }
         BaseUserQueryVO baseUserQueryVO = new BaseUserQueryVO();
-        baseUserQueryVO.setUserId(userId);
+        baseUserQueryVO.setUserId(Long.valueOf(userId));
         if(StringUtils.isNotBlank(tel)) {
             baseUserQueryVO.setTel(tel);
         }
@@ -80,7 +69,7 @@ public class BaseUserControl {
     public OperResult<BaseUserVO> save(HttpServletRequest request, HttpServletResponse response, @RequestBody BaseUserVO baseUserVO) {
         OperResult<BaseUserVO> operResult = null;
 
-        if (StringUtils.isNotBlank(baseUserVO.getUserId()))
+        if (baseUserVO.getUserId() != null)
             operResult = baseUserService.update(baseUserVO);
         else
             operResult = baseUserService.insert(baseUserVO);
@@ -90,7 +79,7 @@ public class BaseUserControl {
 
     @RequestMapping("delete")
     @ResponseBody
-    public OperResult<List<String>> delete(HttpServletRequest request, HttpServletResponse response, @RequestBody List<String> userIdList) {
+    public OperResult<List<Long>> delete(HttpServletRequest request, HttpServletResponse response, @RequestBody List<Long> userIdList) {
         return baseUserService.delete(userIdList);
     }
 }

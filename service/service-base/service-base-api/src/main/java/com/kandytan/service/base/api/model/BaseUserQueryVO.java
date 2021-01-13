@@ -8,7 +8,7 @@ import com.kandytan.base.util.Pager;
  */
 public class BaseUserQueryVO {
     /** 用户id */
-    private String userId;
+    private Long userId;
 
     /**
      * 用户名称 *
@@ -30,11 +30,11 @@ public class BaseUserQueryVO {
      */
     private Pager pager;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

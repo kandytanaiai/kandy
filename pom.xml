@@ -22,6 +22,9 @@
         <module>base</module>
         <module>service</module>
         <module>test1</module>
+        <module>service-component</module>
+        <module>service/service-component/service-component-api</module>
+        <module>service/service-component/service-component-impl</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

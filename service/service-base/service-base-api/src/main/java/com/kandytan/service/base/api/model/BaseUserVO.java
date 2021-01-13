@@ -1,5 +1,7 @@
 package com.kandytan.service.base.api.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Date;
@@ -16,7 +18,7 @@ public class BaseUserVO {
     }
 
     public boolean validate() {
-        if (StringUtils.isBlank(userId) || StringUtils.isBlank(userName) ||
+        if (null == userId || StringUtils.isBlank(userName) ||
                 null == userTypeId || null == sexId ||
                 StringUtils.isBlank(tel) || StringUtils.isBlank(email) ||
                 null == createTime || null == isEnableId)
@@ -28,7 +30,7 @@ public class BaseUserVO {
     /**
      * 用户id *
      */
-    private String userId;
+    private Long userId;
 
     /**
      * 用户名称 *
@@ -78,7 +80,7 @@ public class BaseUserVO {
     /**
      * 创建人id
      */
-    private String createUserId;
+    private Long createUserId;
 
     /**
      * 创建人name
@@ -104,14 +106,6 @@ public class BaseUserVO {
      * 操作
      */
     private String oper;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -169,11 +163,19 @@ public class BaseUserVO {
         this.remark = remark;
     }
 
-    public String getCreateUserId() {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 

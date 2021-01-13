@@ -11,7 +11,7 @@ public class MallGoodsQueryVO {
     /**
      * 商品ID
      */
-    private String goodsId;
+    private Long goodsId;
     /**
      * 商品名称
      */
@@ -19,7 +19,7 @@ public class MallGoodsQueryVO {
     /**
      * 商品类别ID
      */
-    private String goodsCatagoryId;
+    private Long goodsCatagoryId;
     /**
      * 是否可用
      */
@@ -37,14 +37,6 @@ public class MallGoodsQueryVO {
         this.pager = pager;
     }
 
-    public String getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId;
-    }
-
     public String getGoodsName() {
         return goodsName;
     }
@@ -53,11 +45,19 @@ public class MallGoodsQueryVO {
         this.goodsName = goodsName;
     }
 
-    public String getGoodsCatagoryId() {
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Long getGoodsCatagoryId() {
         return goodsCatagoryId;
     }
 
-    public void setGoodsCatagoryId(String goodsCatagoryId) {
+    public void setGoodsCatagoryId(Long goodsCatagoryId) {
         this.goodsCatagoryId = goodsCatagoryId;
     }
 

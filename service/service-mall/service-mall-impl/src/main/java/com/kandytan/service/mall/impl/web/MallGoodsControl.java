@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author tanjianqin
  * @since 1.0
  */
-@Controller
+@RestController
 @RequestMapping(value = "/goods/")
 public class MallGoodsControl {
 
@@ -37,7 +38,7 @@ public class MallGoodsControl {
     private BaseUserServiceClient baseUserServiceClient;
 
     @RequestMapping("selectPager")
-    public @ResponseBody
+    public
     Pager<MallGoodsVO> selectPager(HttpServletRequest request, HttpServletResponse response, @RequestBody MallGoodsQueryVO mallGoodsQueryVO) {
         Pager<MallGoodsVO> pager = mallGoodsService.selectPager(mallGoodsQueryVO);
         BaseUserQueryVO baseUserQueryVO  = new BaseUserQueryVO();

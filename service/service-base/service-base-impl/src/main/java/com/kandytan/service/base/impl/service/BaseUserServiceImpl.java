@@ -2,14 +2,15 @@ package com.kandytan.service.base.impl.service;
 
 import com.kandytan.base.util.OperResult;
 import com.kandytan.base.util.Pager;
-import com.kandytan.base.util.UUID;
 import com.kandytan.service.base.api.model.BaseUserQueryVO;
 import com.kandytan.service.base.api.model.BaseUserVO;
 import com.kandytan.service.base.api.service.BaseUserService;
+import com.kandytan.service.base.impl.client.IdServiceClient;
 import com.kandytan.service.base.impl.dao.BaseUserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +28,8 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Resource
     private BaseUserDao baseUserDao;
+    @Autowired
+    private IdServiceClient idServiceClient;
 
     @Override
     public List<BaseUserVO> selectList(BaseUserQueryVO baseUserQueryVO) {
@@ -84,8 +87,9 @@ public class BaseUserServiceImpl implements BaseUserService {
     public OperResult<BaseUserVO> insert(BaseUserVO baseUserVO) {
         OperResult<BaseUserVO> operResult = new OperResult<BaseUserVO>(baseUserVO);
 
-        if(StringUtils.isBlank(baseUserVO.getUserId()))
-            baseUserVO.setUserId(UUID.getUUID());
+        if(baseUserVO.getUserId() == baseUserVO.getUserId()) {
+            baseUserVO.setUserId(idServiceClient.getId());
+        }
         List<BaseUserVO> list = new ArrayList<BaseUserVO>();
         list.add(baseUserVO);
         try {
@@ -115,8 +119,8 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
-    public OperResult<List<String>> delete(List<String> userIdList) {
-        OperResult<List<String>> operResult = new OperResult<List<String>>(userIdList);
+    public OperResult<List<Long>> delete(List<Long> userIdList) {
+        OperResult<List<Long>> operResult = new OperResult<List<Long>>(userIdList);
         try {
             baseUserDao.delete(userIdList);
             operResult.setSuccess("删除成功");

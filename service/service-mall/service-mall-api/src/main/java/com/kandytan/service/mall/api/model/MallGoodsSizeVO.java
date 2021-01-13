@@ -9,7 +9,7 @@ public class MallGoodsSizeVO {
     /**
      *  商品尺码ID
      */
-    private String goodsSizeId;
+    private Long goodsSizeId;
     /**
      *  商品尺码名称
      */
@@ -17,19 +17,11 @@ public class MallGoodsSizeVO {
     /**
      *  商品ID
      */
-    private String goodsId;
+    private Long goodsId;
     /**
      *  是否可用
      */
     private Boolean isEnableId;
-
-    public String getGoodsSizeId() {
-        return goodsSizeId;
-    }
-
-    public void setGoodsSizeId(String goodsSizeId) {
-        this.goodsSizeId = goodsSizeId;
-    }
 
     public String getGoodsSizeName() {
         return goodsSizeName;
@@ -39,11 +31,19 @@ public class MallGoodsSizeVO {
         this.goodsSizeName = goodsSizeName;
     }
 
-    public String getGoodsId() {
+    public Long getGoodsSizeId() {
+        return goodsSizeId;
+    }
+
+    public void setGoodsSizeId(Long goodsSizeId) {
+        this.goodsSizeId = goodsSizeId;
+    }
+
+    public Long getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(String goodsId) {
+    public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
     }
 

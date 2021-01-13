@@ -9,7 +9,7 @@ public class MallGoodsColorVO {
     /**
      *  商品颜色ID
      */
-    private String goodsColorId;
+    private Long goodsColorId;
     /**
      *  商品颜色名称
      */
@@ -17,19 +17,11 @@ public class MallGoodsColorVO {
     /**
      *  商品ID
      */
-    private String goodsId;
+    private Long goodsId;
     /**
      *  是否可用
      */
     private Boolean isEnableId;
-
-    public String getGoodsColorId() {
-        return goodsColorId;
-    }
-
-    public void setGoodsColorId(String goodsColorId) {
-        this.goodsColorId = goodsColorId;
-    }
 
     public String getGoodsColorName() {
         return goodsColorName;
@@ -39,11 +31,19 @@ public class MallGoodsColorVO {
         this.goodsColorName = goodsColorName;
     }
 
-    public String getGoodsId() {
+    public Long getGoodsColorId() {
+        return goodsColorId;
+    }
+
+    public void setGoodsColorId(Long goodsColorId) {
+        this.goodsColorId = goodsColorId;
+    }
+
+    public Long getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(String goodsId) {
+    public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
     }
 

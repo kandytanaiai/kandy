@@ -25,6 +25,6 @@ public interface BaseUserService {
 
     OperResult<BaseUserVO> update(BaseUserVO baseUserVO);
 
-    OperResult<List<String>> delete(List<String> userIds);
+    OperResult<List<Long>> delete(List<Long> userIds);
 
 }

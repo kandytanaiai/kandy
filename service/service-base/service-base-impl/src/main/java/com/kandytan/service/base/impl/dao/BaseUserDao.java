@@ -20,6 +20,6 @@ public interface BaseUserDao {
 
     boolean update(List<BaseUserVO> list) throws Exception;
 
-    boolean delete(List<String> userIdList) throws Exception;
+    boolean delete(List<Long> userIdList) throws Exception;
 
 }

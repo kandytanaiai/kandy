@@ -12,7 +12,7 @@ public class MallGoodsVO {
     /**
      * 商品ID
      */
-    private String goodsId;
+    private Long goodsId;
     /**
      * 商品名称
      */
@@ -20,11 +20,11 @@ public class MallGoodsVO {
     /**
      * 商品单位ID
      */
-    private String goodsUnitId;
+    private Long goodsUnitId;
     /**
      * 商品类别ID
      */
-    private String goodsCatagoryId;
+    private Long goodsCatagoryId;
     /**
      * 单价
      */
@@ -40,7 +40,7 @@ public class MallGoodsVO {
     /**
      * 创建人ID
      */
-    private String createUserId;
+    private Long createUserId;
     /**
      * 创建人名称
      */
@@ -54,36 +54,12 @@ public class MallGoodsVO {
      */
     private Boolean isEnableId;
 
-    public String getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId;
-    }
-
     public String getGoodsName() {
         return goodsName;
     }
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
-    }
-
-    public String getGoodsUnitId() {
-        return goodsUnitId;
-    }
-
-    public void setGoodsUnitId(String goodsUnitId) {
-        this.goodsUnitId = goodsUnitId;
-    }
-
-    public String getGoodsCatagoryId() {
-        return goodsCatagoryId;
-    }
-
-    public void setGoodsCatagoryId(String goodsCatagoryId) {
-        this.goodsCatagoryId = goodsCatagoryId;
     }
 
     public BigDecimal getPrice() {
@@ -110,11 +86,35 @@ public class MallGoodsVO {
         this.remark = remark;
     }
 
-    public String getCreateUserId() {
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Long getGoodsUnitId() {
+        return goodsUnitId;
+    }
+
+    public void setGoodsUnitId(Long goodsUnitId) {
+        this.goodsUnitId = goodsUnitId;
+    }
+
+    public Long getGoodsCatagoryId() {
+        return goodsCatagoryId;
+    }
+
+    public void setGoodsCatagoryId(Long goodsCatagoryId) {
+        this.goodsCatagoryId = goodsCatagoryId;
+    }
+
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 
